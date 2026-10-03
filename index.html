@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#ffffff" name="theme-color"/>
+<meta content="Interactive teaching media for Grade 7 Computing Science: Data and Processing" name="description"/>
+<title>Data and Processing | Interactive Teaching Media</title>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='2' width='60' height='60' rx='15' fill='%23ffffff' stroke='%230077e8' stroke-width='4'/%3E%3Cpath d='M17 42V27h8v15zm11 0V18h8v24zm11 0V23h8v19z' fill='%2300a9f4'/%3E%3Cpath d='M14 46h36' stroke='%23ff9e1b' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+<link href="assets/css/style.css" rel="stylesheet"/></head>
+<body>
+<div aria-hidden="true" class="noise"></div>
+<main class="app">
+<header class="topbar">
+<button aria-label="เปิดสารบัญ" class="icon-btn" id="tocOpen" title="สารบัญ">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+</button>
+<div class="brand">
+<div class="brand-mark">D</div>
+<div class="brand-copy"><strong>Data and Processing</strong><span>Interactive Teaching Media · วิทยาการคำนวณ ม.1</span></div>
+</div>
+<div aria-label="ความคืบหน้า" class="progress-wrap">
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+<span class="counter" id="counter">01 / 16</span>
+</div>
+<button aria-label="เปิดคำอธิบายสำหรับผู้สอน" class="icon-btn" id="noteToggle" title="คำอธิบายแต่ละสไลด์ (N)">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M4 4h16v13H8l-4 4V4Z"></path><path d="M8 8h8M8 12h5"></path></svg>
+</button>
+<button aria-label="เปิดเต็มจอ" class="icon-btn" id="fullscreen" title="เต็มจอ (F)">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"></path></svg>
+</button>
+</header>
+<section aria-live="polite" class="stage">
+<div class="slides" id="slides">
+<article class="slide active" data-note="เริ่มด้วยการชวนผู้เรียนคิดถึงการตัดสินใจในชีวิตประจำวันที่ต้องใช้ข้อมูล เช่น การเลือกซื้อของหรือเลือกเมนูอาหาร แล้วอธิบายว่าข้อมูลเป็นวัตถุดิบที่ยังต้องผ่านการตรวจสอบและประมวลผลก่อนนำไปใช้ หน่วยนี้จะฝึกครบทั้งการรวบรวม ประมวลผล และนำเสนอข้อมูล" data-title="เริ่มต้น">
+<div class="slide-inner">
+<div class="eyebrow">Unit 05 · 10 ชั่วโมง</div>
+<h1>เปลี่ยน <span class="accent">ข้อมูล</span><br/>ให้เล่าเรื่องได้</h1>
+<p class="lead">จากข้อเท็จจริงที่กระจัดกระจาย สู่ข้อสรุปที่ช่วยให้เราเข้าใจ เลือก และตัดสินใจได้ดีขึ้น</p>
+<div class="title-pipeline">
+<div class="pipeline-step" data-num="1"><strong>รวบรวม</strong><span>ถาม สังเกต สำรวจ และเลือกแหล่งที่มา</span></div>
+<div class="pipeline-step" data-num="2"><strong>ประมวลผล</strong><span>จัดระเบียบ คำนวณ จัดเรียง และกรอง</span></div>
+<div class="pipeline-step" data-num="3"><strong>นำเสนอ</strong><span>เลือกแผนภูมิและสื่อสารข้อค้นพบ</span></div>
+</div>
+</div>
+</article>
+<article class="slide" data-note="แบบทดสอบนี้ใช้สำรวจความรู้เดิม ไม่ใช้ตัดสินผลการเรียน ให้ผู้เรียนตอบด้วยตนเองโดยไม่เปิดเอกสาร แล้วบันทึกคะแนนไว้เปรียบเทียบกับแบบทดสอบหลังเรียน ครูควรสังเกตข้อที่ผู้เรียนผิดมากเพื่อนำไปเน้นระหว่างสอน" data-title="แบบทดสอบก่อนเรียน">
+<div class="slide-inner quiz-shell">
+<div>
+<div class="eyebrow">Pre-test</div>
+<h2>แบบทดสอบ<br/><span class="accent">ก่อนเรียน 5 ข้อ</span></h2>
+<p class="lead">สำรวจความรู้เดิมก่อนเริ่มบทเรียน คะแนนนี้มีไว้ช่วยวางแผนการเรียน ไม่ใช่การตัดสินผล</p>
+<div aria-label="เลือกข้อคำถามก่อนเรียน" class="quiz-nav" id="preQuizNav"></div>
+</div>
+<div class="card" id="preQuizCard">
+<div class="pre-question current" data-correct="2"><h3>1. ข้อใดเป็นข้อมูลเชิงปริมาณ?</h3><label class="choice"><input name="pre1" type="radio" value="1"/>สีเสื้อที่นักเรียนชอบ</label><label class="choice"><input name="pre1" type="radio" value="2"/>เวลาเดินทางมาโรงเรียน 25 นาที</label><label class="choice"><input name="pre1" type="radio" value="3"/>ความคิดเห็นต่ออาหารกลางวัน</label></div>
+<div class="pre-question" data-correct="3"><h3>2. ข้อใดเป็นข้อมูลปฐมภูมิ?</h3><label class="choice"><input name="pre2" type="radio" value="1"/>สถิติประชากรจากเว็บไซต์ราชการ</label><label class="choice"><input name="pre2" type="radio" value="2"/>รายงานผลสำรวจจากหนังสือ</label><label class="choice"><input name="pre2" type="radio" value="3"/>ผลสำรวจเพื่อนในห้องที่เราเก็บเอง</label></div>
+<div class="pre-question" data-correct="1"><h3>3. สูตรใดใช้หาผลรวมของช่วง B2 ถึง B6?</h3><label class="choice"><input name="pre3" type="radio" value="1"/>=SUM(B2:B6)</label><label class="choice"><input name="pre3" type="radio" value="2"/>=AVERAGE(B2:B6)</label><label class="choice"><input name="pre3" type="radio" value="3"/>=MAX(B2:B6)</label></div>
+<div class="pre-question" data-correct="1"><h3>4. ถ้าต้องการเปรียบเทียบคะแนนของนักเรียนหลายคน ควรใช้แผนภูมิใด?</h3><label class="choice"><input name="pre4" type="radio" value="1"/>แผนภูมิแท่ง</label><label class="choice"><input name="pre4" type="radio" value="2"/>แผนภูมิวงกลม</label><label class="choice"><input name="pre4" type="radio" value="3"/>แผนภูมิเส้น</label></div>
+<div class="pre-question" data-correct="2"><h3>5. ขั้นตอนแรกของการจัดการข้อมูลคือข้อใด?</h3><label class="choice"><input name="pre5" type="radio" value="1"/>สร้างแผนภูมิ</label><label class="choice"><input name="pre5" type="radio" value="2"/>รวบรวมข้อมูลให้ตรงกับคำถาม</label><label class="choice"><input name="pre5" type="radio" value="3"/>สรุปข้อเสนอแนะ</label></div>
+<div class="quiz-actions"><button class="nav-btn" id="preQuizPrev">ข้อก่อนหน้า</button><button class="nav-btn primary" id="preQuizNext">ข้อต่อไป</button><button class="nav-btn primary" hidden="" id="preQuizCheck">บันทึกคะแนนก่อนเรียน</button></div>
+<div aria-live="polite" class="quiz-result" id="preQuizResult"></div>
+</div>
+</div>
+</article>
+<article class="slide" data-note="อธิบายเป้าหมายทั้งสามด้านให้เชื่อมต่อกัน ผู้เรียนต้องเริ่มจากเข้าใจประเภทและแหล่งข้อมูล แล้วใช้ตารางคำนวณจัดการข้อมูล ก่อนเลือกแผนภูมิที่สื่อความหมายได้ถูกต้อง ชิ้นงานสุดท้ายคือการสำรวจข้อมูลจริงในโรงเรียนและนำเสนอข้อค้นพบพร้อมเหตุผล" data-title="เป้าหมายการเรียนรู้">
+<div class="slide-inner grid-2">
+<div>
+<div class="eyebrow">Mission</div>
+<h2>จบหน่วยนี้<br/>เราทำอะไรได้บ้าง</h2>
+<p class="lead">เป้าหมายไม่ใช่จำชื่อฟังก์ชัน แต่คือใช้ข้อมูลแก้โจทย์ใกล้ตัวอย่างเป็นระบบ</p>
+</div>
+<div class="card mission-list">
+<div class="mission-item"><div class="mission-icon">01</div><div><h3>แยกประเภทและแหล่งข้อมูล</h3><p>เชิงคุณภาพ เชิงปริมาณ ปฐมภูมิ และทุติยภูมิ</p></div></div>
+<div class="mission-item"><div class="mission-icon">02</div><div><h3>ใช้ตารางคำนวณเป็น</h3><p>จัดเก็บ Sort, Filter และใช้สูตรพื้นฐานได้ถูกต้อง</p></div></div>
+<div class="mission-item"><div class="mission-icon">03</div><div><h3>เล่าเรื่องด้วยแผนภูมิ</h3><p>เลือกภาพที่เหมาะกับคำถามและอธิบายข้อค้นพบได้</p></div></div>
+</div>
+</div>
+</article>
+<article class="slide" data-note="ให้ผู้เรียนช่วยกันระบุข้อมูลที่จำเป็นต่อการเลือกซื้อโทรศัพท์ก่อนดูตัวอย่างบนหน้าจอ จากนั้นถามต่อว่าแต่ละข้อมูลมาจากผู้ผลิต ผู้ขาย หรือผู้ใช้จริง และเป็นข้อมูลเชิงปริมาณหรือเชิงคุณภาพ จุดสำคัญคือคำถามที่ชัดช่วยกำหนดข้อมูลที่ต้องเก็บ" data-title="คำถามเปิดบทเรียน">
+<div class="slide-inner grid-2">
+<div>
+<div class="eyebrow">Warm up</div>
+<h2>ถ้าจะซื้อโทรศัพท์ใหม่<br/><span class="accent-yellow">ต้องรู้อะไรบ้าง?</span></h2>
+<p class="lead">ลองตั้งคำถามให้ชัด ก่อนรีบค้นหาคำตอบ เพราะคำถามที่ดีจะบอกว่าเราต้องเก็บข้อมูลอะไร</p>
+<div class="examples"><span class="tag">ราคา</span><span class="tag">แบตเตอรี่</span><span class="tag">ความจุ</span><span class="tag">รีวิวผู้ใช้</span><span class="tag">บริการหลังการขาย</span></div>
+</div>
+<div aria-label="ตัวอย่างข้อมูลประกอบการเลือกโทรศัพท์" class="phone">
+<div class="phone-screen">
+<div class="phone-title">เปรียบเทียบรุ่น A</div>
+<div class="phone-row"><span>ราคา</span><b>8,990 บาท</b></div>
+<div class="phone-row"><span>แบตเตอรี่</span><b>5,000 mAh</b></div>
+<div class="phone-row"><span>ความจุ</span><b>128 GB</b></div>
+<div class="phone-rating"><span>คะแนนรีวิว</span><strong>4.6 / 5</strong><small>จากผู้ใช้ 328 คน</small></div>
+</div>
+</div>
+</div>
+</article>
+<article class="slide visual-layout visual-types" data-note="อธิบายว่าข้อมูลเชิงคุณภาพใช้บรรยายลักษณะ ประเภท ความคิดเห็น หรือความรู้สึก ส่วนข้อมูลเชิงปริมาณเป็นค่าตัวเลขที่นับหรือวัดและคำนวณต่อได้ ให้ผู้เรียนพิจารณาคำว่า 25 นาที แล้วกดเลือกประเภท พร้อมอธิบายเหตุผล ไม่ใช่จำเพียงชื่อประเภท" data-title="ประเภทของข้อมูล">
+<div class="slide-inner">
+<div class="eyebrow">Data types</div>
+<h2>ข้อมูลเหมือนกัน แต่ <span class="accent">ลักษณะไม่เหมือนกัน</span></h2>
+<div class="grid-2">
+<div class="card type-card qual">
+<span class="card-number">QUALITATIVE</span>
+<h3>ข้อมูลเชิงคุณภาพ</h3>
+<p class="muted">บอกลักษณะ ประเภท ความคิดเห็น หรือความรู้สึก มักตอบว่า “เป็นอย่างไร”</p>
+<div class="examples"><span class="tag">สีเสื้อ</span><span class="tag">ประเภทอาหาร</span><span class="tag">ความคิดเห็น</span></div>
+</div>
+<div class="card type-card quant">
+<span class="card-number">QUANTITATIVE</span>
+<h3>ข้อมูลเชิงปริมาณ</h3>
+<p class="muted">อยู่ในรูปตัวเลข นับหรือวัดได้ และนำไปคำนวณต่อได้</p>
+<div class="examples"><span class="tag">คะแนนสอบ</span><span class="tag">ส่วนสูง</span><span class="tag">จำนวนนักเรียน</span></div>
+</div>
+</div>
+<div class="sort-game">
+<p><strong>ลองจำแนก:</strong> “เวลาเดินทางมาโรงเรียน 25 นาที” เป็นข้อมูลชนิดใด?</p>
+<div class="sort-options"><button class="sort-chip" data-answer="wrong">เชิงคุณภาพ</button><button class="sort-chip" data-answer="correct">เชิงปริมาณ</button></div>
+<p aria-live="polite" class="feedback" id="typeFeedback"></p>
+</div>
+<figure class="lesson-visual"><span class="visual-kicker">VISUAL EXAMPLE</span><img alt="ภาพนักเรียนพิจารณาตัวอย่างข้อมูลเชิงปริมาณและเชิงคุณภาพ" decoding="async" loading="lazy" src="assets/images/01-data-types-thinking.png"/><figcaption>ลองสังเกตว่าอะไร “วัดเป็นตัวเลขได้” และอะไรเป็น “ลักษณะหรือความคิดเห็น”</figcaption></figure></div>
+</article>
+<article class="slide visual-layout visual-sources" data-note="ข้อมูลปฐมภูมิคือข้อมูลที่เราเก็บโดยตรง จึงออกแบบให้ตรงโจทย์และควบคุมวิธีเก็บได้ แต่ใช้เวลา ส่วนข้อมูลทุติยภูมิมีผู้อื่นเก็บไว้แล้ว ใช้ได้รวดเร็วแต่ต้องตรวจสอบผู้จัดทำ วันที่ และวิธีเก็บ ย้ำว่าไม่มีแหล่งใดดีที่สุดเสมอ ต้องเลือกตามคำถามและข้อจำกัด" data-title="แหล่งที่มาของข้อมูล">
+<div class="slide-inner">
+<div class="eyebrow">Data sources</div>
+<h2>เราได้ข้อมูลมา <span class="accent-yellow">จากไหน?</span></h2>
+<div class="source-compare">
+<div class="card source-card">
+<span class="source-label">ปฐมภูมิ</span>
+<h3>เก็บด้วยตนเอง</h3>
+<p class="muted">ได้ข้อมูลตรงกับโจทย์และเป็นปัจจุบัน แต่ใช้เวลาและต้องวางแผนให้ดี</p>
+<ul class="clean-list"><li>แบบสอบถามนักเรียน</li><li>สัมภาษณ์ผู้ใช้จริง</li><li>สังเกตและบันทึก</li></ul>
+</div>
+<div class="source-vs">VS</div>
+<div class="card source-card secondary">
+<span class="source-label">ทุติยภูมิ</span>
+<h3>มีผู้อื่นเก็บไว้แล้ว</h3>
+<p class="muted">รวดเร็วและเข้าถึงข้อมูลจำนวนมาก แต่ต้องตรวจสอบผู้จัดทำ วันที่ และวิธีเก็บ</p>
+<ul class="clean-list"><li>รายงานของหน่วยงาน</li><li>หนังสือและงานวิจัย</li><li>ฐานข้อมูลออนไลน์</li></ul>
+</div>
+</div>
+<figure class="lesson-visual"><span class="visual-kicker">PRIMARY DATA</span><img alt="นักเรียนเก็บข้อมูลปฐมภูมิด้วยแบบสอบถาม การสัมภาษณ์ และการบันทึก" decoding="async" loading="lazy" src="assets/images/02-primary-data-collection.png"/><figcaption>ข้อมูลปฐมภูมิ: เราออกแบบวิธีเก็บและเก็บจากผู้ให้ข้อมูลโดยตรง</figcaption></figure></div>
+</article>
+<article class="slide" data-note="ทบทวนวงจรสามขั้นตอน: รวบรวมข้อมูลให้ตรงคำถาม ประมวลผลเพื่อเปลี่ยนข้อมูลดิบเป็นสารสนเทศ และนำเสนอเพื่อสื่อสารข้อค้นพบ ลองยกโจทย์เรื่องเมนูอาหารกลางวัน แล้วให้ผู้เรียนบอกกิจกรรมที่ต้องทำในแต่ละขั้นตามลำดับ" data-title="วงจรจัดการข้อมูล">
+<div class="slide-inner">
+<div class="eyebrow">Data workflow</div>
+<h2>วงจรข้อมูลมี <span class="accent">3 ขั้นตอนหลัก</span></h2>
+<div class="process">
+<div class="process-step"><div class="process-icon">01</div><h3>รวบรวม</h3><p>กำหนดคำถาม เลือกแหล่งข้อมูล และออกแบบวิธีเก็บให้เหมาะสม</p><div class="examples"><span class="tag">Survey</span><span class="tag">Observe</span></div></div>
+<div class="process-step"><div class="process-icon">02</div><h3>ประมวลผล</h3><p>ตรวจสอบ จัดระเบียบ คำนวณ จัดเรียง และกรอง เพื่อให้เห็นรูปแบบ</p><div class="examples"><span class="tag">Clean</span><span class="tag">Calculate</span></div></div>
+<div class="process-step"><div class="process-icon">03</div><h3>นำเสนอ</h3><p>เลือกตารางหรือแผนภูมิที่เหมาะ แล้วอธิบายข้อค้นพบอย่างตรงไปตรงมา</p><div class="examples"><span class="tag">Visualize</span><span class="tag">Explain</span></div></div>
+</div>
+</div>
+</article>
+<article class="slide" data-note="ชี้องค์ประกอบสำคัญของตารางคำนวณ ได้แก่ แถว คอลัมน์ เซลล์ และแถบสูตร อธิบายว่าเซลล์ B2 คือจุดตัดของคอลัมน์ B กับแถว 2 และ B2:B6 คือช่วงเซลล์ต่อเนื่อง การอ้างอิงตำแหน่งอย่างถูกต้องทำให้สูตรคำนวณทำงานกับข้อมูลที่ต้องการ" data-title="รู้จักตารางคำนวณ">
+<div class="slide-inner grid-2">
+<div>
+<div class="eyebrow">Spreadsheet basics</div>
+<h2>ตารางคำนวณคือ<br/><span class="accent">ห้องทดลองของข้อมูล</span></h2>
+<p class="lead">แต่ละเซลล์มี “ที่อยู่” เช่น B2 และสูตรทุกสูตรเริ่มต้นด้วยเครื่องหมาย <strong>=</strong></p>
+<div class="examples"><span class="tag">แถว Row</span><span class="tag">คอลัมน์ Column</span><span class="tag">เซลล์ Cell</span><span class="tag">ช่วง Range</span></div>
+</div>
+<div aria-label="ตัวอย่างตารางคะแนน" class="sheet">
+<div class="sheet-head"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="formula-bar">=AVERAGE(B2:B6)</div></div>
+<table>
+<thead><tr><th>A</th><th>ชื่อนักเรียน</th><th>B · คะแนน</th></tr></thead>
+<tbody><tr><td>2</td><td>เมย์</td><td class="num">78</td></tr><tr><td>3</td><td>นัท</td><td class="num">92</td></tr><tr><td>4</td><td>ออม</td><td class="num">85</td></tr><tr><td>5</td><td>ปัน</td><td class="num">69</td></tr><tr><td>6</td><td>เจ</td><td class="num">86</td></tr><tr><td></td><td>ค่าเฉลี่ย</td><td class="num hot">82</td></tr></tbody>
+</table>
+</div>
+</div>
+</article>
+<article class="slide visual-layout visual-formulas" data-note="อ่านสูตรทีละส่วนโดยเริ่มจากเครื่องหมายเท่ากับ ชื่อฟังก์ชัน และช่วงข้อมูล SUM ใช้หาผลรวม AVERAGE หาค่าเฉลี่ย MAX หาค่าสูงสุด และ MIN หาค่าต่ำสุด ให้ผู้เรียนตรวจผลลัพธ์กับชุดคะแนนตัวอย่างและอธิบายว่าแต่ละค่าตอบคำถามแบบใด" data-title="สูตรพื้นฐาน">
+<div class="slide-inner">
+<div class="eyebrow">Functions</div>
+<h2>4 ฟังก์ชันพื้นฐาน<br/><span class="accent-yellow">ที่ใช้บ่อยที่สุด</span></h2>
+<div class="grid-2">
+<div class="sheet">
+<div class="sheet-head"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="formula-bar">ช่วงข้อมูล B2:B6</div></div>
+<table><thead><tr><th>รายการ</th><th>ผลลัพธ์</th></tr></thead><tbody><tr><td>ผลรวม</td><td class="num hot">410</td></tr><tr><td>ค่าเฉลี่ย</td><td class="num">82</td></tr><tr><td>ค่าสูงสุด</td><td class="num">92</td></tr><tr><td>ค่าต่ำสุด</td><td class="num">69</td></tr></tbody></table>
+</div>
+<div class="formula-grid">
+<div class="formula-card"><code>=SUM(B2:B6)</code><span>รวมค่าทั้งหมด</span></div>
+<div class="formula-card"><code>=AVERAGE(B2:B6)</code><span>หาค่าเฉลี่ย</span></div>
+<div class="formula-card"><code>=MAX(B2:B6)</code><span>หาค่าสูงสุด</span></div>
+<div class="formula-card"><code>=MIN(B2:B6)</code><span>หาค่าต่ำสุด</span></div>
+</div>
+</div>
+<figure class="lesson-visual"><span class="visual-kicker">SPREADSHEET EXAMPLE</span><img alt="ตัวอย่างสูตร SUM ในโปรแกรมตารางคำนวณ" decoding="async" loading="lazy" src="assets/images/03-sum-formula.png"/><figcaption>ช่วง B2:B6 คือข้อมูลที่สูตรนำมารวมกัน</figcaption></figure></div>
+</article>
+<article class="slide visual-layout visual-filter" data-note="สาธิตความแตกต่างระหว่าง Sort และ Filter โดย Sort เปลี่ยนลำดับแถวตามเงื่อนไข เช่น คะแนนมากไปน้อย ส่วน Filter แสดงเฉพาะรายการที่ตรงเงื่อนไขโดยไม่ได้ลบข้อมูล กดปุ่มทดลองและให้ผู้เรียนสังเกตว่ารายชื่อใดปรากฏหรือเปลี่ยนตำแหน่ง" data-title="จัดเรียงและกรอง">
+<div class="slide-inner grid-2">
+<div>
+<div class="eyebrow">Sort &amp; Filter</div>
+<h2>มองหาคำตอบ<br/><span class="accent">ให้เร็วขึ้น</span></h2>
+<p class="lead"><strong>Sort</strong> เปลี่ยนลำดับข้อมูล · <strong>Filter</strong> แสดงเฉพาะข้อมูลที่ตรงเงื่อนไข</p>
+<div aria-label="ทดลองจัดเรียงและกรอง" class="data-toolbar" role="group"><button class="pill-btn active" data-mode="original">เดิม</button><button class="pill-btn" data-mode="desc">คะแนนมาก → น้อย</button><button class="pill-btn" data-mode="filter">เฉพาะ 80 ขึ้นไป</button></div>
+</div>
+<div class="sheet">
+<table class="data-table" id="dataTable"><thead><tr><th>ชื่อ</th><th>คะแนน</th><th>สถานะ</th></tr></thead><tbody>
+<tr data-order="1" data-score="78"><td>เมย์</td><td class="num">78</td><td>ผ่าน</td></tr>
+<tr data-order="2" data-score="92"><td>นัท</td><td class="num">92</td><td>ดีเยี่ยม</td></tr>
+<tr data-order="3" data-score="85"><td>ออม</td><td class="num">85</td><td>ดี</td></tr>
+<tr data-order="4" data-score="69"><td>ปัน</td><td class="num">69</td><td>ผ่าน</td></tr>
+<tr data-order="5" data-score="86"><td>เจ</td><td class="num">86</td><td>ดี</td></tr>
+</tbody></table>
+</div>
+<figure class="lesson-visual"><span class="visual-kicker">FILTER IN ACTION</span><img alt="ตัวอย่างการกรองข้อมูลคะแนนในตารางคำนวณ" decoding="async" loading="lazy" src="assets/images/05-filter-data.png"/><figcaption>Filter แสดงเฉพาะรายการที่ตรงเงื่อนไข โดยไม่ได้ลบข้อมูลต้นฉบับ</figcaption></figure></div>
+</article>
+<article class="slide visual-layout visual-charts" data-note="เริ่มจากคำถามที่ต้องการตอบ: ถ้าต้องการเปรียบเทียบให้ใช้แผนภูมิแท่ง ถ้าต้องการดูสัดส่วนของทั้งหมดให้ใช้วงกลม และถ้าต้องการดูการเปลี่ยนแปลงตามเวลาให้ใช้เส้น อธิบายว่าการเลือกแผนภูมิผิดอาจทำให้ผู้อ่านเข้าใจสาระสำคัญช้าหรือคลาดเคลื่อน" data-title="เลือกแผนภูมิ">
+<div class="slide-inner">
+<div class="eyebrow">Choose the chart</div>
+<h2>เลือกแผนภูมิให้ตรงกับ <span class="accent-yellow">คำถาม</span></h2>
+<div class="chart-grid">
+<div class="card chart-card"><h3>แผนภูมิแท่ง</h3><small>ใช้เมื่ออยาก “เปรียบเทียบ” หลายหมวดหมู่</small><div aria-label="ตัวอย่างแผนภูมิแท่ง" class="bar-chart"><i data-v="ก" style="--h:62%"></i><i data-v="ข" style="--h:92%"></i><i data-v="ค" style="--h:45%"></i><i data-v="ง" style="--h:76%"></i></div></div>
+<div class="card chart-card"><h3>แผนภูมิวงกลม</h3><small>ใช้เมื่ออยากเห็น “สัดส่วน” ของทั้งหมด</small><div aria-label="ตัวอย่างแผนภูมิวงกลม" class="pie-chart"></div></div>
+<div class="card chart-card"><h3>แผนภูมิเส้น</h3><small>ใช้เมื่ออยากเห็น “แนวโน้มตามเวลา”</small><svg aria-label="ตัวอย่างแผนภูมิเส้น" class="line-chart" role="img" viewbox="0 0 300 150"><path class="gridline" d="M10 30H290M10 75H290M10 120H290"></path><polyline points="18,112 72,82 126,93 180,48 234,58 286,22"></polyline><circle cx="18" cy="112" r="5"></circle><circle cx="72" cy="82" r="5"></circle><circle cx="126" cy="93" r="5"></circle><circle cx="180" cy="48" r="5"></circle><circle cx="234" cy="58" r="5"></circle><circle cx="286" cy="22" r="5"></circle></svg></div>
+</div>
+<figure class="lesson-visual"><span class="visual-kicker">COMPARE THE CHARTS</span><img alt="ตัวอย่างคะแนนและตัวเลือกแผนภูมิแท่ง วงกลม และเส้น" decoding="async" loading="lazy" src="assets/images/04-chart-comparison.png"/><figcaption>ก่อนเลือกกราฟ ให้ถามก่อนว่าเราต้องการ “เปรียบเทียบ”, “ดูสัดส่วน” หรือ “ดูแนวโน้ม”</figcaption></figure></div>
+</article>
+<article class="slide" data-note="อธิบายการสื่อสารข้อมูลสามชั้น ข้อเท็จจริงคือสิ่งที่วัดได้โดยตรง ข้อค้นพบคือความหมายที่ตีความจากข้อเท็จจริง และข้อเสนอแนะคือสิ่งที่ควรทำต่อไป ให้ผู้เรียนตรวจว่าข้อเสนอแนะสอดคล้องกับข้อมูลและไม่สรุปเกินหลักฐานหรือไม่" data-title="เล่าเรื่องจากข้อมูล">
+<div class="slide-inner">
+<div class="eyebrow">Data storytelling</div>
+<h2>แผนภูมิที่ดีต้องตอบว่า<br/><span class="accent">“แล้วอย่างไรต่อ?”</span></h2>
+<div class="story-flow">
+<div class="card story-card"><span class="card-number">01 · FACT</span><h3>ข้อเท็จจริง</h3><blockquote>“นักเรียน 18 จาก 30 คนเลือกข้าวมันไก่”</blockquote></div>
+<div class="card story-card"><span class="card-number">02 · INSIGHT</span><h3>ข้อค้นพบ</h3><blockquote>“เมนูนี้เป็นตัวเลือกยอดนิยม คิดเป็น 60%”</blockquote></div>
+<div class="card story-card"><span class="card-number">03 · ACTION</span><h3>ข้อเสนอแนะ</h3><blockquote>“ควรเพิ่มปริมาณเมนูนี้ในวันที่มีนักเรียนครบ”</blockquote></div>
+</div>
+</div>
+</article>
+<article class="slide visual-layout visual-ai" data-note="เชื่อมสิ่งที่เรียนกับ AI: เครื่องมือ AI สามารถช่วยจัดหมวดหมู่ สรุป หรือมองหารูปแบบจากข้อมูลได้ แต่คุณภาพของผลลัพธ์ขึ้นอยู่กับข้อมูลและคำสั่งที่ป้อนด้วย อธิบายแนวคิด Garbage In, Garbage Out (GIGO) ว่าข้อมูลผิด ไม่ครบ หรือคลุมเครือสามารถนำไปสู่ผลลัพธ์ที่ผิดหรือไม่น่าเชื่อถือ ผู้เรียนจึงต้องตรวจผล AI กลับกับข้อมูลจริงเสมอ" data-title="ข้อมูลกับ AI">
+<div class="slide-inner ai-layout">
+<div>
+<div class="eyebrow">Data → AI</div>
+<h2>ข้อมูลดี ช่วยให้เราใช้ <span class="accent">AI ได้ดีขึ้น</span></h2>
+<p class="lead">AI ช่วยสรุป จัดหมวดหมู่ และมองหารูปแบบได้ แต่ AI ไม่ได้ทำให้ข้อมูลที่ผิดกลายเป็นข้อมูลที่ถูก</p>
+<div class="ai-points">
+<div class="ai-point"><span>01</span><div><strong>เตรียมข้อมูลให้ดี</strong><p>ถูกต้อง ครบพอสำหรับคำถาม และไม่ใส่ข้อมูลส่วนตัวที่ไม่จำเป็น</p></div></div>
+<div class="ai-point"><span>02</span><div><strong>ให้ AI ช่วย</strong><p>เช่น สรุปคำตอบปลายเปิด หรือเสนอประเด็นที่น่าสนใจจากข้อมูล</p></div></div>
+<div class="ai-point"><span>03</span><div><strong>ตรวจกลับกับหลักฐาน</strong><p>ทุกข้อสรุปต้องตรวจว่าตรงกับตารางและแผนภูมิจริงหรือไม่</p></div></div>
+</div>
+<div class="gigo-callout"><strong>Garbage In → Garbage Out</strong><span>ข้อมูลเข้าไม่ดี ผลลัพธ์ก็อาจไม่ดีตามไปด้วย</span></div>
+</div>
+<figure class="lesson-visual ai-visual"><span class="visual-kicker">DATA → AI</span><img alt="ภาพเปรียบเทียบข้อมูลดีและข้อมูลไม่ดีเมื่อนำไปใช้กับ AI" decoding="async" loading="lazy" src="assets/images/06-ai-good-bad-data.png"/><figcaption>AI เป็นผู้ช่วย — แต่ข้อมูลและการตรวจสอบยังเป็นหน้าที่ของเรา</figcaption></figure>
+</div>
+</article><article class="slide" data-note="แบ่งผู้เรียนกลุ่มละ 3-4 คน ให้ตั้งคำถาม เก็บข้อมูลจริง ตรวจความครบถ้วน ลงตารางคำนวณ ใช้สูตรและสร้างแผนภูมิ จากนั้นให้ AI ช่วยสรุปข้อค้นพบโดยใช้เฉพาะข้อมูลที่กลุ่มเตรียมไว้ แล้วตรวจอย่างน้อย 2 ข้อความจาก AI ว่าตรงกับหลักฐานจริงหรือไม่ กิจกรรมนี้เชื่อมครบทั้งการรวบรวม ประมวลผล นำเสนอ และการใช้ AI อย่างรับผิดชอบ" data-title="กิจกรรมรวบยอด">
+<div class="slide-inner">
+<div class="eyebrow">Capstone activity</div>
+<h2>ภารกิจ: <span class="accent-yellow">ข้อมูลจริง → ตาราง → กราฟ → AI</span></h2>
+<div class="activity-board">
+<div class="brief">
+<h3>โจทย์</h3>
+<p>เลือกคำถามใกล้ตัว 1 เรื่อง เช่น เมนูโปรด วิธีเดินทางมาโรงเรียน หรือเวลาที่ใช้ทำการบ้าน แล้วหาคำตอบจากข้อมูลจริง</p>
+<div class="examples"><span class="tag">กลุ่มละ 3–4 คน</span><span class="tag">ใช้ข้อมูลจริง</span><span class="tag">ตรวจ AI กับหลักฐาน</span></div>
+</div>
+<div class="timeline">
+<div class="timeline-item"><strong>ตั้งคำถาม + ออกแบบวิธีเก็บข้อมูล</strong><span>10 นาที</span></div>
+<div class="timeline-item"><strong>รวบรวมและตรวจความครบถ้วน</strong><span>15 นาที</span></div>
+<div class="timeline-item"><strong>ลงตาราง + ใช้สูตร / Sort / Filter</strong><span>20 นาที</span></div>
+<div class="timeline-item"><strong>สร้างแผนภูมิ + เขียนข้อค้นพบ</strong><span>15 นาที</span></div>
+<div class="timeline-item"><strong>ให้ AI ช่วยสรุปจากข้อมูลของกลุ่ม</strong><span>10 นาที</span></div>
+<div class="timeline-item"><strong>ตรวจ 2 ข้อความของ AI กับข้อมูลจริง แล้วนำเสนอ</strong><span>20 นาที</span></div>
+</div>
+</div>
+<div class="ai-task-card"><strong>หลักฐานที่ต้องส่ง</strong><span>ชุดข้อมูล 1 ตาราง · สูตรอย่างน้อย 1 สูตร · แผนภูมิ 1 แบบ · ข้อค้นพบ 2 ข้อ · ผลตรวจคำตอบ AI 2 จุด</span></div>
+</div>
+</article>
+<article class="slide" data-note="ให้ผู้เรียนตอบด้วยตนเองหลังจบบทเรียนโดยไม่เปิดเอกสาร ระบบจะตรวจคะแนนและเปรียบเทียบกับคะแนนก่อนเรียนอัตโนมัติ หลังตรวจคำตอบให้ครูทบทวนเหตุผลของทุกข้อ โดยเฉพาะข้อที่ยังสับสนเรื่องประเภทข้อมูล สูตร และการเลือกแผนภูมิ" data-title="แบบทดสอบหลังเรียน">
+<div class="slide-inner quiz-shell">
+<div>
+<div class="eyebrow">Post-test</div>
+<h2>แบบทดสอบ<br/><span class="accent">หลังเรียน 5 ข้อ</span></h2>
+<p class="lead">เลือกคำตอบที่ถูกต้องที่สุด แล้วเปรียบเทียบพัฒนาการกับคะแนนก่อนเรียน</p>
+<div aria-label="เลือกข้อคำถาม" class="quiz-nav" id="quizNav"></div>
+</div>
+<div class="card" id="quizCard">
+<div class="question current" data-correct="2"><h3>1. ข้อมูลชนิดใดเหมาะสำหรับนำไปคำนวณหาค่าเฉลี่ย?</h3><label class="choice"><input name="q1" type="radio" value="1"/>ข้อมูลเชิงคุณภาพ</label><label class="choice"><input name="q1" type="radio" value="2"/>ข้อมูลเชิงปริมาณ</label><label class="choice"><input name="q1" type="radio" value="3"/>ข้อมูลทุติยภูมิ</label></div>
+<div class="question" data-correct="3"><h3>2. ข้อใดเป็นข้อมูลปฐมภูมิ?</h3><label class="choice"><input name="q2" type="radio" value="1"/>สถิติจากเว็บไซต์ราชการ</label><label class="choice"><input name="q2" type="radio" value="2"/>บทความจากห้องสมุด</label><label class="choice"><input name="q2" type="radio" value="3"/>ผลสำรวจเพื่อนในห้องที่เราเก็บเอง</label></div>
+<div class="question" data-correct="2"><h3>3. ต้องการหาค่าเฉลี่ยของ B2:B6 ควรใช้สูตรใด?</h3><label class="choice"><input name="q3" type="radio" value="1"/>=SUM(B2:B6)</label><label class="choice"><input name="q3" type="radio" value="2"/>=AVERAGE(B2:B6)</label><label class="choice"><input name="q3" type="radio" value="3"/>=MAX(B2:B6)</label></div>
+<div class="question" data-correct="1"><h3>4. ถ้าต้องการเปรียบเทียบยอดขายสินค้า 3 ประเภท ควรใช้แผนภูมิใด?</h3><label class="choice"><input name="q4" type="radio" value="1"/>แผนภูมิแท่ง</label><label class="choice"><input name="q4" type="radio" value="2"/>แผนภูมิวงกลม</label><label class="choice"><input name="q4" type="radio" value="3"/>แผนภูมิเส้น</label></div>
+<div class="question" data-correct="2"><h3>5. การ Filter ข้อมูลมีประโยชน์อย่างไร?</h3><label class="choice"><input name="q5" type="radio" value="1"/>ทำให้ทุกค่ามากขึ้น</label><label class="choice"><input name="q5" type="radio" value="2"/>แสดงเฉพาะรายการที่ตรงเงื่อนไข</label><label class="choice"><input name="q5" type="radio" value="3"/>ลบข้อมูลที่ไม่ต้องการถาวร</label></div>
+<div class="quiz-actions"><button class="nav-btn" id="quizPrev">ข้อก่อนหน้า</button><button class="nav-btn primary" id="quizNext">ข้อต่อไป</button><button class="nav-btn primary" hidden="" id="quizCheck">ตรวจคะแนน</button></div>
+<div aria-live="polite" class="quiz-result" id="quizResult"></div>
+</div>
+</div>
+</article>
+<article class="slide" data-note="สรุปวงจรทั้งหมดตั้งแต่ตั้งคำถาม รวบรวมข้อมูล ประมวลผล นำเสนอ ไปจนถึงการใช้ AI เป็นผู้ช่วย ย้ำว่า AI ควรทำงานบนข้อมูลที่เราตรวจสอบแล้ว และผู้ใช้ต้องตรวจผลกลับกับหลักฐานจริง แนวคิด Garbage In, Garbage Out ใช้เตือนว่าอินพุตที่ไม่ดีสามารถทำให้ผลลัพธ์ไม่น่าเชื่อถือได้" data-title="สรุปบทเรียน">
+<div class="slide-inner">
+<div class="eyebrow">Recap</div>
+<h2>ข้อมูลจะมีคุณค่า<br/>เมื่อเราใช้มัน <span class="accent">อย่างมีเหตุผล</span></h2>
+<div class="recap">
+<div class="recap-card"><strong>01 · เก็บให้ตรงโจทย์</strong><span class="muted">กำหนดคำถาม เลือกแหล่งที่มา และเคารพความเป็นส่วนตัว</span></div>
+<div class="recap-card"><strong>02 · คำนวณให้ถูกต้อง</strong><span class="muted">ตรวจสอบข้อมูล ใช้สูตรเหมาะสม และไม่ด่วนสรุป</span></div>
+<div class="recap-card"><strong>03 · สื่อสาร + ตรวจ AI</strong><span class="muted">เลือกแผนภูมิให้ตรงคำถาม และถ้าใช้ AI ต้องตรวจผลกลับกับข้อมูลจริง</span></div>
+</div>
+<div class="exit-ticket"><div><p>Exit ticket</p><span>ก่อนออกจากห้อง ลองตอบให้ได้ใน 1 นาที</span></div><p>“ถ้าจะให้ AI ช่วยสรุป ฉันต้องเตรียมข้อมูลอะไรให้ดีก่อน?”</p></div>
+</div>
+</article>
+</div>
+</section>
+<footer class="bottom-bar">
+<div class="hint"><kbd>←</kbd><kbd>→</kbd> เปลี่ยนสไลด์   <kbd>N</kbd> บันทึกผู้สอน   <kbd>F</kbd> เต็มจอ</div>
+<div class="nav-actions"><button class="nav-btn" id="prevBtn">ก่อนหน้า</button><button class="nav-btn primary" id="nextBtn">ถัดไป</button></div>
+</footer>
+</main>
+<div aria-label="สารบัญ" aria-modal="true" class="toc" id="toc" role="dialog">
+<div class="toc-panel"><div class="toc-head"><h3>สารบัญบทเรียน</h3><button aria-label="ปิดสารบัญ" class="icon-btn" id="tocClose">×</button></div><div class="toc-grid" id="tocGrid"></div></div>
+</div>
+<aside aria-live="polite" class="presenter-note" id="presenterNote"><strong>คำอธิบายการสอนสไลด์นี้</strong><p id="noteText"></p></aside>
+<script defer="True" src="assets/js/app.js"></script></body>
+</html>
