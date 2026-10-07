@@ -18,7 +18,7 @@
       </div>
       <div class="progress-wrap" aria-label="ความคืบหน้า">
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-        <span class="counter" id="counter">01 / 14</span>
+        <span class="counter" id="counter">01 / 16</span>
       </div>
       <button class="icon-btn" id="fullscreen" aria-label="เต็มจอ" title="เต็มจอ">⛶</button>
     </header>
@@ -37,6 +37,22 @@
               <button class="phone-card" data-phone="C"><div class="phone-art"></div><strong>รุ่น C</strong><span>ยังไม่เปิดข้อมูล</span></button>
             </div>
             <div class="inline-feedback" id="firstChoiceFeedback">เลือกได้เลย แล้วลองคิดว่า “เราใช้เหตุผลอะไรในการเลือก?”</div>
+          </div>
+        </article>
+
+
+        <article class="slide" data-title="ทดสอบก่อนเรียน">
+          <div class="slide-inner lesson-quiz-slide">
+            <div class="eyebrow">PRE-TEST</div>
+            <h2>ลองเช็ก <span class="accent">ความรู้ก่อนเรียน</span></h2>
+            <p class="quiz-intro">5 ข้อ · ตอบจากความเข้าใจเดิม ไม่ต้องกังวลเรื่องคะแนน</p>
+            <div class="lesson-quiz-card" id="preLessonQuiz">
+              <div class="lesson-quiz-top"><span id="preQuizProgress">ข้อ 1 / 5</span><span id="preQuizScoreMini">ยังไม่ตรวจคะแนน</span></div>
+              <h3 id="preQuizQuestion">กำลังโหลดคำถาม...</h3>
+              <div class="lesson-quiz-options" id="preQuizOptions"></div>
+              <div class="lesson-quiz-feedback" id="preQuizFeedback">เลือกคำตอบ 1 ข้อ</div>
+              <div class="lesson-quiz-actions"><button class="next-mini" id="preQuizNext" disabled>ข้อต่อไป →</button></div>
+            </div>
           </div>
         </article>
 
@@ -228,6 +244,22 @@
             <div class="evidence-card">
               <div><span>รุ่น A</span><b>8,990 · 5,000 mAh · 128 GB · 4.3</b></div>
               <div><span>รุ่น B</span><b>9,990 · 6,000 mAh · 256 GB · 4.7</b></div>
+            </div>
+          </div>
+        </article>
+
+
+        <article class="slide" data-title="แบบฝึกหัดท้ายบท">
+          <div class="slide-inner lesson-quiz-slide">
+            <div class="eyebrow">FINAL PRACTICE</div>
+            <h2>แบบฝึกหัด <span class="accent">ท้ายบท</span></h2>
+            <p class="quiz-intro">5 ข้อ · ใช้สิ่งที่เรียนมาเลือกคำตอบที่เหมาะสมที่สุด</p>
+            <div class="lesson-quiz-card" id="postLessonQuiz">
+              <div class="lesson-quiz-top"><span id="postQuizProgress">ข้อ 1 / 5</span><span id="postQuizScoreMini">เปรียบเทียบกับก่อนเรียนได้</span></div>
+              <h3 id="postQuizQuestion">กำลังโหลดคำถาม...</h3>
+              <div class="lesson-quiz-options" id="postQuizOptions"></div>
+              <div class="lesson-quiz-feedback" id="postQuizFeedback">เลือกคำตอบ 1 ข้อ</div>
+              <div class="lesson-quiz-actions"><button class="next-mini" id="postQuizNext" disabled>ข้อต่อไป →</button></div>
             </div>
           </div>
         </article>

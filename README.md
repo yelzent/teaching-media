@@ -32,3 +32,11 @@ data-and-processing-teaching-media-v3/
 ```
 
 เปิด `index.html` ได้โดยตรง หรือใช้ VS Code Live Server
+
+
+## v3.1 Demo flow update
+
+- เพิ่ม Pre-test 5 ข้อแบบแสดงทีละข้อ
+- เพิ่มแบบฝึกหัดท้ายบท 5 ข้อ พร้อมเปรียบเทียบคะแนนก่อนเรียน
+- คงรูปแบบ 1 สไลด์ต่อ 1 หน้าจอ ลดการเลื่อนแนวตั้งบนจอ Desktop/Projector
+- คง Data → AI / Garbage In → Garbage Out
