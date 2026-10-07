@@ -15,6 +15,8 @@ data-and-processing-teaching-media/
 │   ├── js/
 │   │   └── app.js
 │   └── images/
+│       ├── slides/
+│       │   └── Data_Detective_page-0001.jpg ... 0007.jpg
 │       ├── 01-data-types-thinking.png
 │       ├── 02-primary-data-collection.png
 │       ├── 03-sum-formula.png
@@ -29,18 +31,14 @@ data-and-processing-teaching-media/
 
 1. เริ่มต้นและแบบทดสอบก่อนเรียน
 2. เป้าหมายการเรียนรู้
-3. คำถามนำเข้าสู่บทเรียน
-4. ประเภทของข้อมูล
-5. แหล่งที่มาของข้อมูล
-6. วงจรการจัดการข้อมูล
-7. Spreadsheet และสูตรพื้นฐาน
-8. Sort / Filter
-9. การเลือกแผนภูมิ
-10. Data Storytelling
-11. Data → AI และ Garbage In, Garbage Out (GIGO)
-12. กิจกรรมรวบยอด: ข้อมูลจริง → ตาราง → กราฟ → AI → ตรวจสอบ
-13. แบบทดสอบหลังเรียน
-14. สรุป / Exit Ticket
+3. ภารกิจนักสืบข้อมูลด้วยสไลด์ภาพ 7 หน้า
+4. ความหมาย รูปแบบ แหล่งที่มา และการประมวลผลข้อมูล
+5. Spreadsheet สูตรพื้นฐาน และการเลือกแผนภูมิ
+6. กิจกรรมจำแนกข้อมูลและสรุปภารกิจ
+7. Data → AI และ Garbage In, Garbage Out (GIGO)
+8. กิจกรรมรวบยอด: ข้อมูลจริง → ตาราง → กราฟ → AI → ตรวจสอบ
+9. แบบทดสอบหลังเรียน
+10. สรุป / Exit Ticket
 
 ## Main features
 
@@ -51,8 +49,7 @@ data-and-processing-teaching-media/
 - Table of contents
 - Presenter notes
 - Interactive pre-test and post-test
-- Sort / Filter interactive example
-- Illustrated learning examples
+- Full-image lesson slides optimized for projector, tablet, and mobile
 - AI + GIGO connection and student verification task
 - Print-friendly CSS
 
