@@ -248,18 +248,31 @@
           </div>
         </article>
 
-
-        <article class="slide" data-title="แบบฝึกหัดท้ายบท">
-          <div class="slide-inner lesson-quiz-slide">
-            <div class="eyebrow">FINAL PRACTICE</div>
-            <h2>แบบฝึกหัด <span class="accent">ท้ายบท</span></h2>
-            <p class="quiz-intro">5 ข้อ · ใช้สิ่งที่เรียนมาเลือกคำตอบที่เหมาะสมที่สุด</p>
-            <div class="lesson-quiz-card" id="postLessonQuiz">
-              <div class="lesson-quiz-top"><span id="postQuizProgress">ข้อ 1 / 5</span><span id="postQuizScoreMini">เปรียบเทียบกับก่อนเรียนได้</span></div>
-              <h3 id="postQuizQuestion">กำลังโหลดคำถาม...</h3>
-              <div class="lesson-quiz-options" id="postQuizOptions"></div>
-              <div class="lesson-quiz-feedback" id="postQuizFeedback">เลือกคำตอบ 1 ข้อ</div>
-              <div class="lesson-quiz-actions"><button class="next-mini" id="postQuizNext" disabled>ข้อต่อไป →</button></div>
+        <article class="slide" data-title="ชิ้นงานปลายหน่วย">
+          <div class="slide-inner project-slide">
+            <div class="project-copy">
+              <div class="eyebrow">FINAL PROJECT</div>
+              <h2>ชิ้นงานปลายหน่วย<br><span class="accent">นักสืบข้อมูล</span></h2>
+              <p class="project-lead">เลือกคำถามใกล้ตัว 1 เรื่อง แล้วใช้ข้อมูลจริงหาคำตอบอย่างเป็นระบบ</p>
+              <div class="project-steps">
+                <div><span>1</span><p><b>เก็บข้อมูลจริง</b><small>อย่างน้อย 10 รายการ</small></p></div>
+                <div><span>2</span><p><b>ประมวลผล</b><small>Sort / Filter / สูตร อย่างน้อย 1 วิธี</small></p></div>
+                <div><span>3</span><p><b>สร้างกราฟ</b><small>เลือกแบบที่เหมาะกับคำถาม 1 แบบ</small></p></div>
+                <div><span>4</span><p><b>สรุปข้อค้นพบ</b><small>อย่างน้อย 2 ข้อ + การตัดสินใจ</small></p></div>
+              </div>
+            </div>
+            <div class="project-download-card">
+              <span class="card-label">ไฟล์ชิ้นงาน</span>
+              <h3>ดาวน์โหลดไฟล์ แล้วทำงานในไฟล์นี้</h3>
+              <p>ในไฟล์มีคำชี้แจง ตารางเก็บข้อมูล ช่องประมวลผล พื้นที่กราฟ และส่วนสรุปผลครบแล้ว</p>
+              <div class="project-checks">
+                <span>✓ ข้อมูล ≥ 10 รายการ</span>
+                <span>✓ ประมวลผล ≥ 1 วิธี</span>
+                <span>✓ กราฟ 1 แบบ</span>
+                <span>✓ ข้อค้นพบ 2 ข้อ</span>
+              </div>
+              <a class="download-work-btn" href="docs/data-detective-project.xlsx" download>⬇ ดาวน์โหลดไฟล์ชิ้นงาน (.xlsx)</a>
+              <small class="submit-note">ทำเสร็จแล้วบันทึกไฟล์ และอัปโหลดเข้าสู่ระบบส่งงาน</small>
             </div>
           </div>
         </article>
@@ -282,10 +295,32 @@
         </article>
 
       </div>
+      <canvas id="annotationCanvas" class="annotation-canvas" aria-label="พื้นที่เขียนประกอบการสอน"></canvas>
     </section>
 
     <footer class="bottom-bar">
       <div class="hint"><kbd>←</kbd><kbd>→</kbd> เปลี่ยนสไลด์ &nbsp; <kbd>F</kbd> เต็มจอ</div>
+
+      <div class="draw-toolbar" id="drawToolbar" role="toolbar" aria-label="เครื่องมือเขียนบนสไลด์">
+        <button class="draw-tool active" id="toolMouse" type="button" title="เมาส์ / ใช้งานปุ่มในสไลด์" aria-label="โหมดเมาส์"><span class="tool-icon">↖</span><span class="tool-label">เมาส์</span></button>
+        <button class="draw-tool" id="toolPen" type="button" title="ปากกา" aria-label="ปากกา"><span class="tool-icon">✎</span><span class="tool-label">ปากกา</span></button>
+        <button class="draw-tool" id="toolEraser" type="button" title="ยางลบ" aria-label="ยางลบ"><span class="tool-icon">▱</span><span class="tool-label">ลบ</span></button>
+        <button class="draw-tool icon-only" id="toolUndo" type="button" title="ย้อนกลับเส้นล่าสุด" aria-label="ย้อนกลับ">↶</button>
+        <button class="draw-tool icon-only" id="toolClear" type="button" title="ล้างรอยเขียนหน้านี้" aria-label="ล้างรอยเขียน">⌫</button>
+        <span class="toolbar-sep" aria-hidden="true"></span>
+        <div class="color-tools" aria-label="สีปากกา">
+          <button class="color-dot active" type="button" data-color="#e53935" style="--dot:#e53935" title="สีแดง" aria-label="สีแดง"></button>
+          <button class="color-dot" type="button" data-color="#087fe5" style="--dot:#087fe5" title="สีน้ำเงิน" aria-label="สีน้ำเงิน"></button>
+          <button class="color-dot" type="button" data-color="#111827" style="--dot:#111827" title="สีดำ" aria-label="สีดำ"></button>
+          <button class="color-dot" type="button" data-color="#18a566" style="--dot:#18a566" title="สีเขียว" aria-label="สีเขียว"></button>
+          <button class="color-dot" type="button" data-color="#f08a00" style="--dot:#f08a00" title="สีส้ม" aria-label="สีส้ม"></button>
+        </div>
+        <span class="toolbar-sep" aria-hidden="true"></span>
+        <button class="size-btn" id="sizeDown" type="button" aria-label="ลดความหนาปากกา" title="ลดความหนา">−</button>
+        <span class="size-value" id="sizeValue" aria-live="polite">4</span>
+        <button class="size-btn" id="sizeUp" type="button" aria-label="เพิ่มความหนาปากกา" title="เพิ่มความหนา">+</button>
+      </div>
+
       <div class="nav-actions"><button class="nav-btn" id="prevBtn">ก่อนหน้า</button><button class="nav-btn primary" id="nextBtn">ถัดไป</button></div>
     </footer>
   </main>

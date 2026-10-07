@@ -30,7 +30,9 @@
   }
 
   function go(index) {
-    current = Math.max(0, Math.min(slides.length - 1, index));
+    const next = Math.max(0, Math.min(slides.length - 1, index));
+    if (next !== current) clearAnnotations();
+    current = next;
     history.replaceState(null, '', `#slide-${current + 1}`);
     update();
   }
@@ -57,9 +59,205 @@
     if (e.key === 'Escape') closeToc();
   });
 
+  // Presentation annotation / whiteboard layer
+  const stage = document.querySelector('.stage');
+  const annotationCanvas = document.getElementById('annotationCanvas');
+  const annotationCtx = annotationCanvas ? annotationCanvas.getContext('2d') : null;
+  const toolMouse = document.getElementById('toolMouse');
+  const toolPen = document.getElementById('toolPen');
+  const toolEraser = document.getElementById('toolEraser');
+  const toolUndo = document.getElementById('toolUndo');
+  const toolClear = document.getElementById('toolClear');
+  const sizeDown = document.getElementById('sizeDown');
+  const sizeUp = document.getElementById('sizeUp');
+  const sizeValue = document.getElementById('sizeValue');
+  const colorDots = [...document.querySelectorAll('.color-dot')];
+
+  let annotationMode = 'mouse';
+  let penColor = '#e53935';
+  let penSize = 4;
+  let annotationStrokes = [];
+  let currentStroke = null;
+  let drawing = false;
+  let canvasCssWidth = 1;
+  let canvasCssHeight = 1;
+
+  function setAnnotationComposite(stroke) {
+    annotationCtx.globalCompositeOperation = stroke.mode === 'eraser' ? 'destination-out' : 'source-over';
+    annotationCtx.strokeStyle = stroke.color;
+    annotationCtx.fillStyle = stroke.color;
+    annotationCtx.lineWidth = stroke.mode === 'eraser' ? Math.max(18, stroke.width * 5) : stroke.width;
+    annotationCtx.lineCap = 'round';
+    annotationCtx.lineJoin = 'round';
+  }
+
+  function pointToPx(point) {
+    return { x: point.x * canvasCssWidth, y: point.y * canvasCssHeight };
+  }
+
+  function drawAnnotationStroke(stroke) {
+    if (!annotationCtx || !stroke || !stroke.points.length) return;
+    setAnnotationComposite(stroke);
+    if (stroke.points.length === 1) {
+      const p = pointToPx(stroke.points[0]);
+      annotationCtx.beginPath();
+      annotationCtx.arc(p.x, p.y, annotationCtx.lineWidth / 2, 0, Math.PI * 2);
+      annotationCtx.fill();
+      return;
+    }
+    annotationCtx.beginPath();
+    const start = pointToPx(stroke.points[0]);
+    annotationCtx.moveTo(start.x, start.y);
+    for (let i = 1; i < stroke.points.length; i++) {
+      const p = pointToPx(stroke.points[i]);
+      annotationCtx.lineTo(p.x, p.y);
+    }
+    annotationCtx.stroke();
+  }
+
+  function clearCanvasPixels() {
+    if (!annotationCtx || !annotationCanvas) return;
+    annotationCtx.save();
+    annotationCtx.setTransform(1, 0, 0, 1, 0, 0);
+    annotationCtx.clearRect(0, 0, annotationCanvas.width, annotationCanvas.height);
+    annotationCtx.restore();
+  }
+
+  function redrawAnnotations() {
+    if (!annotationCtx) return;
+    clearCanvasPixels();
+    annotationStrokes.forEach(drawAnnotationStroke);
+    annotationCtx.globalCompositeOperation = 'source-over';
+  }
+
+  function clearAnnotations() {
+    annotationStrokes = [];
+    currentStroke = null;
+    drawing = false;
+    clearCanvasPixels();
+    if (annotationCtx) annotationCtx.globalCompositeOperation = 'source-over';
+  }
+
+  function resizeAnnotationCanvas() {
+    if (!annotationCanvas || !annotationCtx || !stage) return;
+    const rect = stage.getBoundingClientRect();
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    canvasCssWidth = Math.max(1, rect.width);
+    canvasCssHeight = Math.max(1, rect.height);
+    annotationCanvas.width = Math.round(canvasCssWidth * dpr);
+    annotationCanvas.height = Math.round(canvasCssHeight * dpr);
+    annotationCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    redrawAnnotations();
+  }
+
+  function setAnnotationMode(mode) {
+    annotationMode = mode;
+    if (!annotationCanvas) return;
+    annotationCanvas.classList.toggle('drawing-enabled', mode !== 'mouse');
+    annotationCanvas.classList.toggle('eraser-enabled', mode === 'eraser');
+    [toolMouse, toolPen, toolEraser].forEach(btn => btn && btn.classList.remove('active'));
+    if (mode === 'mouse' && toolMouse) toolMouse.classList.add('active');
+    if (mode === 'pen' && toolPen) toolPen.classList.add('active');
+    if (mode === 'eraser' && toolEraser) toolEraser.classList.add('active');
+  }
+
+  function eventPoint(e) {
+    const rect = annotationCanvas.getBoundingClientRect();
+    return {
+      x: Math.min(1, Math.max(0, (e.clientX - rect.left) / Math.max(1, rect.width))),
+      y: Math.min(1, Math.max(0, (e.clientY - rect.top) / Math.max(1, rect.height)))
+    };
+  }
+
+  if (annotationCanvas && annotationCtx) {
+    annotationCanvas.addEventListener('pointerdown', e => {
+      if (annotationMode === 'mouse') return;
+      e.preventDefault();
+      e.stopPropagation();
+      drawing = true;
+      annotationCanvas.setPointerCapture?.(e.pointerId);
+      currentStroke = {
+        mode: annotationMode,
+        color: penColor,
+        width: penSize,
+        points: [eventPoint(e)]
+      };
+    });
+
+    annotationCanvas.addEventListener('pointermove', e => {
+      if (!drawing || !currentStroke) return;
+      e.preventDefault();
+      const nextPoint = eventPoint(e);
+      const previous = currentStroke.points[currentStroke.points.length - 1];
+      currentStroke.points.push(nextPoint);
+      setAnnotationComposite(currentStroke);
+      const p1 = pointToPx(previous);
+      const p2 = pointToPx(nextPoint);
+      annotationCtx.beginPath();
+      annotationCtx.moveTo(p1.x, p1.y);
+      annotationCtx.lineTo(p2.x, p2.y);
+      annotationCtx.stroke();
+    });
+
+    const endStroke = e => {
+      if (!drawing || !currentStroke) return;
+      e?.preventDefault?.();
+      drawing = false;
+      if (currentStroke.points.length === 1) drawAnnotationStroke(currentStroke);
+      annotationStrokes.push(currentStroke);
+      currentStroke = null;
+      annotationCtx.globalCompositeOperation = 'source-over';
+    };
+    annotationCanvas.addEventListener('pointerup', endStroke);
+    annotationCanvas.addEventListener('pointercancel', endStroke);
+    annotationCanvas.addEventListener('contextmenu', e => { if (annotationMode !== 'mouse') e.preventDefault(); });
+
+    toolMouse?.addEventListener('click', () => setAnnotationMode('mouse'));
+    toolPen?.addEventListener('click', () => setAnnotationMode('pen'));
+    toolEraser?.addEventListener('click', () => setAnnotationMode('eraser'));
+    toolUndo?.addEventListener('click', () => { annotationStrokes.pop(); redrawAnnotations(); });
+    toolClear?.addEventListener('click', clearAnnotations);
+
+    colorDots.forEach(dot => dot.addEventListener('click', () => {
+      penColor = dot.dataset.color || penColor;
+      colorDots.forEach(x => x.classList.toggle('active', x === dot));
+      setAnnotationMode('pen');
+    }));
+
+    const updatePenSize = delta => {
+      penSize = Math.min(12, Math.max(2, penSize + delta));
+      if (sizeValue) sizeValue.textContent = String(penSize);
+    };
+    sizeDown?.addEventListener('click', () => updatePenSize(-1));
+    sizeUp?.addEventListener('click', () => updatePenSize(1));
+
+    window.addEventListener('resize', resizeAnnotationCanvas);
+    document.addEventListener('fullscreenchange', () => requestAnimationFrame(resizeAnnotationCanvas));
+    requestAnimationFrame(resizeAnnotationCanvas);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.target.matches?.('input, textarea, select')) return;
+    const key = e.key.toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && key === 'z') {
+      e.preventDefault();
+      annotationStrokes.pop();
+      redrawAnnotations();
+      return;
+    }
+    if (key === 'd') setAnnotationMode(annotationMode === 'pen' ? 'mouse' : 'pen');
+    if (key === 'e') setAnnotationMode('eraser');
+    if (key === 'm') setAnnotationMode('mouse');
+    if (key === 'c' && annotationMode !== 'mouse') clearAnnotations();
+  });
+
   let touchStart = 0;
-  document.querySelector('.stage').addEventListener('touchstart', e => touchStart = e.changedTouches[0].clientX, {passive:true});
+  document.querySelector('.stage').addEventListener('touchstart', e => {
+    if (annotationMode !== 'mouse') return;
+    touchStart = e.changedTouches[0].clientX;
+  }, {passive:true});
   document.querySelector('.stage').addEventListener('touchend', e => {
+    if (annotationMode !== 'mouse') return;
     const dx = e.changedTouches[0].clientX - touchStart;
     if (Math.abs(dx) > 60) go(current + (dx < 0 ? 1 : -1));
   }, {passive:true});
@@ -161,13 +359,6 @@
     {q:'ถ้าต้องการเปรียบเทียบจำนวนผู้เลือกมือถือ A / B / C ควรใช้กราฟใด?', options:['แผนภูมิแท่ง','แผนภูมิวงกลม','แผนภูมิเส้น'], answer:0, reason:'แผนภูมิแท่งเหมาะกับการเปรียบเทียบหลายหมวดหมู่'},
     {q:'ข้อใดอธิบายความสัมพันธ์ระหว่างข้อมูลกับ AI ได้เหมาะสมที่สุด?', options:['ข้อมูลไม่สำคัญ เพราะ AI คิดเองได้','ข้อมูลที่ถูกต้องและครบ ช่วยให้ AI ทำงานน่าเชื่อถือขึ้น','ยิ่งใส่ข้อมูลเยอะเท่าไรก็ถูกเสมอ'], answer:1, reason:'AI อาศัยข้อมูลที่ป้อนเข้า จึงควรใช้ข้อมูลที่ถูกต้อง ครบ และตรงคำถาม'}
   ];
-  const postQuestions = [
-    {q:'“แบตเตอรี่ 6,000 mAh” เป็นข้อมูลชนิดใด?', options:['เชิงปริมาณ','เชิงคุณภาพ','สารสนเทศ'], answer:0, reason:'เป็นค่าที่วัดและเปรียบเทียบเป็นตัวเลขได้'},
-    {q:'การกรองข้อมูล (Filter) ทำอะไรกับชุดข้อมูล?', options:['ลบข้อมูลที่ไม่ตรงเงื่อนไขถาวร','แสดงเฉพาะรายการที่ตรงเงื่อนไข','เปลี่ยนข้อมูลทั้งหมดเป็นกราฟ'], answer:1, reason:'Filter ช่วยแสดงเฉพาะรายการที่ตรงเงื่อนไข โดยไม่จำเป็นต้องลบข้อมูลต้นฉบับ'},
-    {q:'“คะแนนเฉลี่ยของห้องคือ 72 คะแนน” จัดเป็นอะไร?', options:['ข้อมูลดิบ','สารสนเทศ','ข้อมูลเชิงคุณภาพ'], answer:1, reason:'ค่าเฉลี่ยเกิดจากการนำข้อมูลมาคำนวณและสรุปความหมายแล้ว'},
-    {q:'ถ้าต้องการเปรียบเทียบยอดของ A / B / C ควรเลือกกราฟใด?', options:['กราฟแท่ง','กราฟวงกลม','กราฟเส้น'], answer:0, reason:'กราฟแท่งช่วยเปรียบเทียบค่าระหว่างหมวดหมู่ได้ชัดเจน'},
-    {q:'ทำไม “ข้อมูลที่ดี” จึงสำคัญเมื่อใช้ AI?', options:['เพราะช่วยให้ AI สรุปหรือวิเคราะห์บนหลักฐานที่น่าเชื่อถือกว่า','เพราะทำให้ AI ถูกต้อง 100% เสมอ','เพราะ AI ไม่ต้องตรวจสอบคำตอบอีก'], answer:0, reason:'ข้อมูลที่ดีช่วยเพิ่มความน่าเชื่อถือ แต่ผู้ใช้ยังต้องตรวจคำตอบ AI กลับกับหลักฐานจริง'}
-  ];
 
   function setupLessonQuiz(prefix, questions, storageKey, compareKey = null) {
     const questionEl = document.getElementById(`${prefix}QuizQuestion`);
@@ -214,7 +405,7 @@
       finished = true;
       saveStored(storageKey, score);
       progressEl.textContent = `ครบ ${questions.length} ข้อ`;
-      questionEl.textContent = prefix === 'pre' ? 'คะแนนก่อนเรียน' : 'ผลแบบฝึกหัดท้ายบท';
+      questionEl.textContent = 'คะแนนก่อนเรียน';
       optionsEl.innerHTML = '';
       feedbackEl.className = 'lesson-quiz-feedback result';
       let extra = '';
@@ -240,7 +431,6 @@
   }
 
   setupLessonQuiz('pre', preQuestions, 'unit5PretestScore');
-  setupLessonQuiz('post', postQuestions, 'unit5PosttestScore', 'unit5PretestScore');
 
   renderClassify();
   update();
