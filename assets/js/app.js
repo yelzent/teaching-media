@@ -1,153 +1,156 @@
 (() => {
-      const slides = [...document.querySelectorAll('.slide')];
-      const progressFill = document.getElementById('progressFill');
-      const counter = document.getElementById('counter');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const toc = document.getElementById('toc');
-      const tocGrid = document.getElementById('tocGrid');
-      const note = document.getElementById('presenterNote');
-      const noteText = document.getElementById('noteText');
-      const initialSlide = Math.max(0, Math.min(slides.length - 1, Number(location.hash.replace('#slide-', '')) - 1 || 0));
-      let current = -1;
+  const slides = [...document.querySelectorAll('.slide')];
+  const progressFill = document.getElementById('progressFill');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const toc = document.getElementById('toc');
+  const tocGrid = document.getElementById('tocGrid');
+  let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.replace('#slide-', '')) - 1 || 0));
 
-      slides.forEach((slide, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'toc-item';
-        btn.innerHTML = `<span>${String(i + 1).padStart(2, '0')}</span><span>${slide.dataset.title}</span>`;
-        btn.addEventListener('click', () => { go(i); closeToc(); });
-        tocGrid.appendChild(btn);
-      });
+  slides.forEach((slide, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'toc-item';
+    btn.innerHTML = `<span>${String(i + 1).padStart(2, '0')}</span><span>${slide.dataset.title}</span>`;
+    btn.addEventListener('click', () => { go(i); closeToc(); });
+    tocGrid.appendChild(btn);
+  });
 
-      function go(index, pushHash = true) {
-        const next = Math.max(0, Math.min(slides.length - 1, index));
-        if (next === current && slides[current].classList.contains('active')) { update(); return; }
-        slides.forEach((slide, i) => {
-          slide.classList.toggle('active', i === next);
-          slide.classList.toggle('exit-left', i < next);
-          if (i === next) slide.scrollTop = 0;
-        });
-        current = next;
-        if (pushHash) history.replaceState(null, '', `#slide-${current + 1}`);
-        update();
-      }
+  function update() {
+    const n = current + 1;
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === current);
+      slide.classList.toggle('exit-left', i < current);
+    });
+    progressFill.style.width = `${(n / slides.length) * 100}%`;
+    counter.textContent = `${String(n).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    document.title = `${slides[current].dataset.title} | Data and Processing`;
+  }
 
-      function update() {
-        const n = current + 1;
-        progressFill.style.width = `${(n / slides.length) * 100}%`;
-        counter.textContent = `${String(n).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-        prevBtn.disabled = current === 0;
-        nextBtn.disabled = current === slides.length - 1;
-        noteText.textContent = slides[current].dataset.note || '';
-        document.title = `${slides[current].dataset.title} | Data and Processing`;
-      }
+  function go(index) {
+    current = Math.max(0, Math.min(slides.length - 1, index));
+    history.replaceState(null, '', `#slide-${current + 1}`);
+    update();
+  }
 
-      const openToc = () => { toc.classList.add('open'); document.getElementById('tocClose').focus(); };
-      const closeToc = () => { toc.classList.remove('open'); document.getElementById('tocOpen').focus(); };
-      document.getElementById('tocOpen').addEventListener('click', openToc);
-      document.getElementById('tocClose').addEventListener('click', closeToc);
-      toc.addEventListener('click', e => { if (e.target === toc) closeToc(); });
-      prevBtn.addEventListener('click', () => go(current - 1));
-      nextBtn.addEventListener('click', () => go(current + 1));
+  const openToc = () => toc.classList.add('open');
+  const closeToc = () => toc.classList.remove('open');
+  document.getElementById('tocOpen').addEventListener('click', openToc);
+  document.getElementById('tocClose').addEventListener('click', closeToc);
+  toc.addEventListener('click', e => { if (e.target === toc) closeToc(); });
+  prevBtn.addEventListener('click', () => go(current - 1));
+  nextBtn.addEventListener('click', () => go(current + 1));
 
-      document.getElementById('noteToggle').addEventListener('click', () => note.classList.toggle('show'));
-      document.getElementById('fullscreen').addEventListener('click', async () => {
-        try { if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); } catch (_) {}
-      });
+  document.getElementById('fullscreen').addEventListener('click', async () => {
+    try { document.fullscreenElement ? await document.exitFullscreen() : await document.documentElement.requestFullscreen(); } catch (_) {}
+  });
 
-      document.addEventListener('keydown', e => {
-        if (e.target.matches('input, button') && !['Escape', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
-        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
-        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
-        if (e.key === 'Home') go(0);
-        if (e.key === 'End') go(slides.length - 1);
-        if (e.key.toLowerCase() === 'n') note.classList.toggle('show');
-        if (e.key.toLowerCase() === 'f') document.getElementById('fullscreen').click();
-        if (e.key === 'Escape') { toc.classList.remove('open'); note.classList.remove('show'); }
-      });
+  document.addEventListener('keydown', e => {
+    if (e.target.closest('button') && (e.key === ' ' || e.key === 'Enter')) return;
+    if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); go(current + 1); }
+    if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); go(current - 1); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+    if (e.key.toLowerCase() === 'f') document.getElementById('fullscreen').click();
+    if (e.key === 'Escape') closeToc();
+  });
 
-      let touchStart = 0;
-      document.querySelector('.stage').addEventListener('touchstart', e => { touchStart = e.changedTouches[0].clientX; }, { passive: true });
-      document.querySelector('.stage').addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - touchStart; if (Math.abs(dx) > 60) go(current + (dx < 0 ? 1 : -1)); }, { passive: true });
+  let touchStart = 0;
+  document.querySelector('.stage').addEventListener('touchstart', e => touchStart = e.changedTouches[0].clientX, {passive:true});
+  document.querySelector('.stage').addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStart;
+    if (Math.abs(dx) > 60) go(current + (dx < 0 ? 1 : -1));
+  }, {passive:true});
 
-      document.querySelectorAll('.sort-chip').forEach(btn => btn.addEventListener('click', () => {
-        document.querySelectorAll('.sort-chip').forEach(x => x.dataset.state = '');
-        const correct = btn.dataset.answer === 'correct';
-        btn.dataset.state = correct ? 'correct' : 'wrong';
-        document.getElementById('typeFeedback').textContent = correct ? 'ถูกต้อง — “25 นาที” เป็นค่าที่วัดและคำนวณต่อได้' : 'ลองอีกครั้ง: ค่านี้นับหรือวัดเป็นตัวเลขได้หรือไม่?';
-      }));
+  const firstCards = [...document.querySelectorAll('#firstChoiceGrid .phone-card')];
+  const firstFeedback = document.getElementById('firstChoiceFeedback');
+  firstCards.forEach(card => card.addEventListener('click', () => {
+    firstCards.forEach(x => x.classList.remove('selected'));
+    card.classList.add('selected');
+    firstFeedback.innerHTML = `เลือกรุ่น <b>${card.dataset.phone}</b> — แต่เรายังไม่รู้ราคา แบตเตอรี่ ความจุ หรือรีวิวเลย <b>ข้อมูลพอหรือยัง?</b>`;
+  }));
 
-      const tbody = document.querySelector('#dataTable tbody');
-      document.querySelectorAll('[data-mode]').forEach(btn => btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('active', x === btn));
-        const rows = [...tbody.rows];
-        rows.forEach(row => row.classList.remove('dim'));
-        if (btn.dataset.mode === 'desc') rows.sort((a,b) => b.dataset.score - a.dataset.score);
-        if (btn.dataset.mode === 'original') rows.sort((a,b) => a.dataset.order - b.dataset.order);
-        if (btn.dataset.mode === 'filter') rows.forEach(row => row.classList.toggle('dim', Number(row.dataset.score) < 80));
-        rows.forEach(row => tbody.appendChild(row));
-      }));
+  const classifyItems = [
+    {text:'เวลาเดินทางมาโรงเรียน 25 นาที',answer:'quant',reason:'วัดออกมาเป็นตัวเลขได้'},
+    {text:'สีโทรศัพท์ที่ชอบคือสีฟ้า',answer:'qual',reason:'เป็นลักษณะหรือประเภท'},
+    {text:'แบตเตอรี่ 6,000 mAh',answer:'quant',reason:'เป็นค่าที่วัดและเปรียบเทียบได้'},
+    {text:'มือถือรุ่นนี้ใช้งานง่าย',answer:'qual',reason:'เป็นความคิดเห็น/ลักษณะ'},
+    {text:'คะแนนรีวิว 4.7 จาก 5',answer:'quant',reason:'เป็นค่าตัวเลขที่นำไปเปรียบเทียบได้'}
+  ];
+  let classifyIndex = 0;
+  const classifyPrompt = document.getElementById('classifyPrompt');
+  const classifyFeedback = document.getElementById('classifyFeedback');
+  const classifyProgress = document.getElementById('classifyProgress');
+  const nextClassify = document.getElementById('nextClassify');
+  const classifyButtons = [...document.querySelectorAll('.classify-choice')];
+  function renderClassify(){
+    const item = classifyItems[classifyIndex];
+    classifyPrompt.textContent = item.text;
+    classifyProgress.textContent = `ข้อ ${classifyIndex + 1} / ${classifyItems.length}`;
+    classifyFeedback.textContent = 'เลือกคำตอบ 1 ข้อ';
+    classifyButtons.forEach(b => b.classList.remove('correct','wrong'));
+    nextClassify.disabled = true;
+  }
+  classifyButtons.forEach(btn => btn.addEventListener('click', () => {
+    const item = classifyItems[classifyIndex];
+    classifyButtons.forEach(b => b.classList.remove('correct','wrong'));
+    const correct = btn.dataset.answer === item.answer;
+    btn.classList.add(correct ? 'correct' : 'wrong');
+    const rightBtn = classifyButtons.find(b => b.dataset.answer === item.answer);
+    if (!correct) rightBtn.classList.add('correct');
+    classifyFeedback.innerHTML = `${correct ? '✓ ถูกต้อง' : 'ลองอีกครั้ง'} — ${item.reason}`;
+    nextClassify.disabled = false;
+  }));
+  nextClassify.addEventListener('click', () => { classifyIndex = (classifyIndex + 1) % classifyItems.length; renderClassify(); });
 
-      const scoreKey = 'unit5DataPretestScore';
-      const readScore = () => { try { const value = localStorage.getItem(scoreKey); return value === null ? null : Number(value); } catch (_) { return null; } };
-      const saveScore = value => { try { localStorage.setItem(scoreKey, String(value)); } catch (_) {} };
+  const filterRows = [...document.querySelectorAll('#filterTable tbody tr')];
+  document.getElementById('runFilter').addEventListener('click', () => {
+    filterRows.forEach(row => {
+      const ok = Number(row.dataset.price) <= 10000 && Number(row.dataset.battery) >= 5000;
+      row.classList.toggle('filtered-out', !ok);
+      row.classList.toggle('winner', ok);
+      row.querySelector('.status').textContent = ok ? '✓ ผ่าน' : 'กรองออก';
+    });
+    document.getElementById('filterResult').hidden = false;
+  });
+  document.getElementById('resetFilter').addEventListener('click', () => {
+    filterRows.forEach(row => { row.classList.remove('filtered-out','winner'); row.querySelector('.status').textContent = 'รอตรวจ'; });
+    document.getElementById('filterResult').hidden = true;
+  });
 
-      function setupQuiz({ questionSelector, navId, prevId, nextId, checkId, resultId, stage }) {
-        const questions = [...document.querySelectorAll(questionSelector)];
-        const quizNav = document.getElementById(navId);
-        let quizIndex = 0;
+  const chartFeedback = document.getElementById('chartFeedback');
+  const chartButtons = [...document.querySelectorAll('.chart-choice')];
+  chartButtons.forEach(btn => btn.addEventListener('click', () => {
+    chartButtons.forEach(x => x.classList.remove('correct','wrong'));
+    if (btn.dataset.chart === 'bar') {
+      btn.classList.add('correct');
+      chartFeedback.innerHTML = '✓ <b>แผนภูมิแท่ง</b> เหมาะที่สุดสำหรับการเปรียบเทียบหลายหมวดหมู่';
+    } else {
+      btn.classList.add('wrong');
+      chartButtons.find(x => x.dataset.chart === 'bar').classList.add('correct');
+      chartFeedback.textContent = btn.dataset.chart === 'pie' ? 'วงกลมเหมาะกับ “สัดส่วน” มากกว่า' : 'เส้นเหมาะกับ “การเปลี่ยนแปลงตามเวลา” มากกว่า';
+    }
+  }));
 
-        questions.forEach((_, i) => {
-          const b = document.createElement('button');
-          b.className = 'quiz-dot';
-          b.textContent = i + 1;
-          b.setAttribute('aria-label', `${stage === 'pre' ? 'ก่อนเรียน' : 'หลังเรียน'} ข้อ ${i + 1}`);
-          b.addEventListener('click', () => showQuestion(i));
-          quizNav.appendChild(b);
-        });
+  const finalAnswer = document.getElementById('finalAnswer');
+  document.querySelectorAll('.final-choice').forEach(btn => btn.addEventListener('click', () => {
+    finalAnswer.innerHTML = btn.dataset.model === 'A'
+      ? '<b>ตัวอย่าง:</b> เลือก A เพราะราคา 8,990 บาท อยู่ในงบ และแบต 5,000 mAh ผ่านเงื่อนไข'
+      : '<b>ตัวอย่าง:</b> เลือก B เพราะราคา 9,990 บาท อยู่ในงบ แบต 6,000 mAh และรีวิว 4.7 สูงกว่า A';
+  }));
 
-        function showQuestion(i) {
-          quizIndex = Math.max(0, Math.min(questions.length - 1, i));
-          questions.forEach((q, n) => q.classList.toggle('current', n === quizIndex));
-          [...quizNav.children].forEach((b, n) => {
-            b.classList.toggle('current', n === quizIndex);
-            b.classList.toggle('answered', !!questions[n].querySelector('input:checked'));
-          });
-          document.getElementById(prevId).disabled = quizIndex === 0;
-          document.getElementById(nextId).hidden = quizIndex === questions.length - 1;
-          document.getElementById(checkId).hidden = quizIndex !== questions.length - 1;
-        }
+  const exitFeedback = document.getElementById('exitFeedback');
+  const exitButtons = [...document.querySelectorAll('.exit-choice')];
+  exitButtons.forEach(btn => btn.addEventListener('click', () => {
+    exitButtons.forEach(x => x.classList.remove('correct','wrong'));
+    const correct = btn.dataset.answer === 'info';
+    btn.classList.add(correct ? 'correct' : 'wrong');
+    exitButtons.find(x => x.dataset.answer === 'info').classList.add('correct');
+    exitFeedback.innerHTML = correct ? '✓ <b>สารสนเทศ</b> เพราะผ่านการคำนวณและสรุปความหมายแล้ว' : 'คะแนนดิบเป็น “ข้อมูล” แต่ค่าเฉลี่ย 72 เป็นผลจากการประมวลผล จึงเป็น “สารสนเทศ”';
+  }));
 
-        document.getElementById(prevId).addEventListener('click', () => showQuestion(quizIndex - 1));
-        document.getElementById(nextId).addEventListener('click', () => showQuestion(quizIndex + 1));
-        questions.forEach(q => q.querySelectorAll('input').forEach(input => input.addEventListener('change', () => showQuestion(quizIndex))));
-        document.getElementById(checkId).addEventListener('click', () => {
-          let score = 0, answered = 0;
-          questions.forEach(q => {
-            const picked = q.querySelector('input:checked');
-            if (picked) { answered++; if (picked.value === q.dataset.correct) score++; }
-          });
-          const result = document.getElementById(resultId);
-          result.classList.add('show');
-          if (answered < questions.length) {
-            result.innerHTML = `ตอบแล้ว ${answered}/${questions.length} ข้อ — กรุณาตอบให้ครบก่อนตรวจคะแนน`;
-            return;
-          }
-          if (stage === 'pre') {
-            saveScore(score);
-            result.innerHTML = `<strong>คะแนนก่อนเรียน ${score}/${questions.length}</strong><br>บันทึกคะแนนแล้ว เริ่มเรียนได้เลย และกลับมาเปรียบเทียบอีกครั้งหลังจบบทเรียน`;
-            return;
-          }
-          const preScore = readScore();
-          const comparison = preScore === null
-            ? 'ยังไม่พบคะแนนก่อนเรียน จึงยังเปรียบเทียบพัฒนาการไม่ได้'
-            : `ก่อนเรียน ${preScore}/${questions.length} → หลังเรียน ${score}/${questions.length} · ${score - preScore >= 0 ? 'เพิ่มขึ้น' : 'เปลี่ยนแปลง'} ${Math.abs(score - preScore)} คะแนน`;
-          result.innerHTML = `<strong>คะแนนหลังเรียน ${score}/${questions.length}</strong><br>${comparison}<br>${score >= 4 ? 'ยอดเยี่ยม สามารถนำความรู้ไปใช้กับชุดข้อมูลจริงได้' : 'ควรทบทวนประเภทข้อมูล สูตรพื้นฐาน และการเลือกแผนภูมิอีกครั้ง'}`;
-        });
-        showQuestion(0);
-      }
-
-      setupQuiz({ questionSelector: '.pre-question', navId: 'preQuizNav', prevId: 'preQuizPrev', nextId: 'preQuizNext', checkId: 'preQuizCheck', resultId: 'preQuizResult', stage: 'pre' });
-      setupQuiz({ questionSelector: '.question', navId: 'quizNav', prevId: 'quizPrev', nextId: 'quizNext', checkId: 'quizCheck', resultId: 'quizResult', stage: 'post' });
-      go(initialSlide, false);
-    })();
+  renderClassify();
+  update();
+})();

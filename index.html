@@ -4,100 +4,46 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#ffffff" />
-  <meta name="description" content="Interactive teaching media for Grade 7 Computing Science: Data and Processing — Demo Teaching Flow" />
-  <title>ข้อมูลและการประมวลผล | Demo Teaching Flow</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='2' y='2' width='60' height='60' rx='15' fill='%23ffffff' stroke='%230077e8' stroke-width='4'/%3E%3Cpath d='M17 42V27h8v15zm11 0V18h8v24zm11 0V23h8v19z' fill='%2300a9f4'/%3E%3Cpath d='M14 46h36' stroke='%23ff9e1b' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <meta name="description" content="Interactive teaching media for Grade 7 Computing Science: Data and Processing" />
+  <title>ข้อมูลและการประมวลผล | วิทยาการคำนวณ ม.1</title>
   <link rel="stylesheet" href="assets/css/style.css" />
-  <style>
-    /* Demo Teaching Flow additions — kept inside index so existing style.css can stay unchanged */
-    .demo-kicker{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .75rem;border-radius:999px;background:rgba(0,119,232,.09);font-weight:800;letter-spacing:.04em;color:#0066c8}
-    .demo-question{font-size:clamp(1.15rem,2vw,1.55rem);font-weight:800;line-height:1.45;margin:.8rem 0 0;color:#162033}
-    .demo-sub{font-size:clamp(.95rem,1.45vw,1.12rem);line-height:1.6;color:#5d6878;margin:.45rem 0 0}
-    .phone-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.2rem}
-    .phone-card{appearance:none;border:1px solid rgba(18,36,61,.12);background:rgba(255,255,255,.88);border-radius:24px;padding:1.05rem;min-height:230px;cursor:pointer;text-align:left;transition:.22s ease;box-shadow:0 14px 40px rgba(27,55,90,.08);color:inherit}
-    .phone-card:hover,.phone-card:focus-visible{transform:translateY(-4px);border-color:rgba(0,119,232,.45);box-shadow:0 18px 46px rgba(0,119,232,.14);outline:none}
-    .phone-card.selected{border-color:#0077e8;box-shadow:0 0 0 3px rgba(0,119,232,.12),0 18px 46px rgba(0,119,232,.16)}
-    .phone-art{height:110px;border-radius:18px;background:linear-gradient(145deg,#f2f7ff,#dceaff);display:grid;place-items:center;margin-bottom:.85rem;position:relative;overflow:hidden}
-    .phone-art::before{content:"";width:52px;height:92px;border-radius:12px;background:linear-gradient(150deg,#111b2e,#314a6e);box-shadow:inset 0 0 0 3px #e9eef7}
-    .phone-art::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#57b6ff;top:18px;left:50%;transform:translateX(-50%)}
-    .phone-card strong{font-size:1.15rem}.phone-card small{display:block;color:#718096;margin-top:.3rem}.phone-card .pick{margin-top:.8rem;font-weight:800;color:#0077e8}
-    .feedback-box{margin-top:1rem;padding:1rem 1.1rem;border-radius:18px;background:rgba(255,158,27,.09);border:1px solid rgba(255,158,27,.2);font-weight:700;line-height:1.5;min-height:55px}
-    .data-chip-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.75rem;margin-top:1.2rem}
-    .data-chip{border-radius:20px;padding:1rem;background:#fff;border:1px solid rgba(18,36,61,.1);box-shadow:0 10px 28px rgba(27,55,90,.06)}
-    .data-chip span{display:block;color:#718096;font-size:.8rem;font-weight:700}.data-chip strong{display:block;font-size:1.1rem;margin-top:.35rem}
-    .big-reveal{margin-top:1.1rem;border-radius:24px;padding:1.1rem 1.25rem;background:linear-gradient(135deg,rgba(0,119,232,.09),rgba(0,169,244,.05));border:1px solid rgba(0,119,232,.15)}
-    .big-reveal strong{font-size:clamp(1.5rem,3vw,2.5rem);color:#0077e8}.big-reveal span{display:block;color:#526174;margin-top:.2rem}
-    .compare-two{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:1rem;margin-top:1.2rem}
-    .compare-card{border-radius:24px;padding:1.25rem;background:#fff;border:1px solid rgba(18,36,61,.1);box-shadow:0 12px 32px rgba(27,55,90,.07);display:flex;flex-direction:column;justify-content:center;min-height:190px}
-    .compare-card .example{font-size:clamp(1.7rem,4vw,3.2rem);font-weight:900}.compare-card .type{margin-top:.65rem;font-weight:900;color:#0077e8}.compare-card p{margin:.45rem 0 0;color:#687589;line-height:1.5}
-    .vs{display:grid;place-items:center;font-weight:900;color:#ff9e1b;font-size:1.4rem}
-    .classify-board{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
-    .classify-zone{border:2px dashed rgba(0,119,232,.25);border-radius:22px;padding:1rem;min-height:150px;background:rgba(255,255,255,.55)}
-    .classify-zone h3{margin:0 0 .45rem}.classify-zone p{margin:0;color:#687589}.challenge-card{margin-top:1rem;padding:1rem;border-radius:20px;background:#fff;border:1px solid rgba(18,36,61,.1)}
-    .challenge-card strong{font-size:1.2rem}.choice-row{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:.85rem}.demo-btn{border:0;border-radius:14px;padding:.7rem 1rem;font-weight:800;cursor:pointer;background:#edf5ff;color:#006dcc;transition:.18s ease}.demo-btn:hover{transform:translateY(-2px)}.demo-btn.primary{background:#0077e8;color:#fff}.demo-btn.alt{background:#fff3df;color:#a85c00}.demo-btn.good{background:#eafaf2;color:#137a49}.demo-btn.bad{background:#fff0f0;color:#bd3333}
-    .process-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem;align-items:stretch;margin-top:1.15rem}.process-node{border-radius:20px;padding:1rem .8rem;background:#fff;border:1px solid rgba(18,36,61,.1);text-align:center;box-shadow:0 10px 28px rgba(27,55,90,.05)}.process-node b{display:block;font-size:1rem}.process-node span{display:block;color:#718096;font-size:.82rem;margin-top:.3rem}.process-arrow{display:none}
-    .phone-table-wrap{overflow:auto;margin-top:1rem;border-radius:20px;border:1px solid rgba(18,36,61,.1);background:#fff}.phone-table{width:100%;border-collapse:collapse;min-width:720px}.phone-table th,.phone-table td{padding:.85rem .9rem;text-align:center;border-bottom:1px solid rgba(18,36,61,.08)}.phone-table th{font-size:.84rem;text-transform:uppercase;letter-spacing:.04em;color:#637083;background:#f6f9fd}.phone-table td:first-child,.phone-table th:first-child{text-align:left}.phone-table tbody tr{transition:.3s ease}.phone-table tbody tr.filtered-out{opacity:.18;filter:grayscale(1);text-decoration:line-through}.phone-table tbody tr.winner{background:rgba(23,174,103,.07)}
-    .condition-row{display:flex;gap:.7rem;flex-wrap:wrap;margin:.85rem 0}.condition{padding:.65rem .85rem;border-radius:999px;background:#eef7ff;border:1px solid rgba(0,119,232,.18);font-weight:800;color:#0066c8}.condition.orange{background:#fff4e5;border-color:rgba(255,158,27,.28);color:#9b5900}
-    .result-pill{display:inline-flex;align-items:center;gap:.45rem;margin-top:.75rem;padding:.7rem .9rem;border-radius:999px;background:#eafaf2;color:#137a49;font-weight:900}
-    .process-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin-top:1rem}.process-action{border-radius:20px;background:#fff;border:1px solid rgba(18,36,61,.1);padding:1rem;text-align:center}.process-action b{display:block;color:#0077e8}.process-action span{display:block;margin-top:.3rem;color:#687589;font-size:.88rem}
-    .info-transform{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-top:1rem}.raw-box,.info-box{border-radius:24px;padding:1.15rem;background:#fff;border:1px solid rgba(18,36,61,.1);min-height:220px}.raw-list{display:grid;gap:.5rem;margin-top:.8rem}.raw-item{display:flex;justify-content:space-between;border-radius:12px;padding:.65rem .75rem;background:#f6f8fb}.transform-arrow{text-align:center;color:#ff9e1b;font-weight:900}.transform-arrow span{display:block;font-size:.8rem;color:#748093;margin-top:.25rem}.info-number{font-size:clamp(3.1rem,7vw,5.6rem);font-weight:950;line-height:1;color:#0077e8}.info-box p{font-size:1.1rem;font-weight:800;line-height:1.5}.mini-bars{display:flex;align-items:flex-end;gap:.8rem;height:170px;margin:1rem 0}.mini-bar-wrap{flex:1;text-align:center}.mini-bar{width:100%;border-radius:12px 12px 4px 4px;background:linear-gradient(180deg,#00a9f4,#0077e8);min-height:20px}.mini-bar-wrap b{display:block;margin-top:.4rem}.chart-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:1rem}.chart-choice{border-radius:20px;padding:1rem;background:#fff;border:1px solid rgba(18,36,61,.1);cursor:pointer;text-align:center;transition:.18s ease}.chart-choice:hover{transform:translateY(-3px);border-color:rgba(0,119,232,.35)}.chart-choice .icon{font-size:2rem}.chart-choice b{display:block;margin-top:.4rem}.chart-choice span{display:block;color:#6e7a8b;font-size:.84rem;margin-top:.25rem}
-    .evidence-card{border-radius:22px;padding:1rem;background:#fff;border:1px solid rgba(18,36,61,.1)}.evidence-card h3{margin:.1rem 0 .65rem}.evidence-line{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid rgba(18,36,61,.07)}.evidence-line:last-child{border-bottom:0}.evidence-line span{color:#6b7686}.evidence-line b{color:#152035}
-    .final-answer{margin-top:1rem;padding:1rem 1.1rem;border-radius:20px;background:linear-gradient(135deg,rgba(23,174,103,.1),rgba(0,169,244,.07));border:1px solid rgba(23,174,103,.2);font-weight:800;line-height:1.6}
-    .exit-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}.exit-card{border-radius:22px;padding:1.1rem;background:#fff;border:1px solid rgba(18,36,61,.1)}.exit-card .scenario{font-weight:800;line-height:1.55}.exit-answer{margin-top:.8rem;display:none;padding:.75rem;border-radius:14px;background:#edf8ff;color:#0069c8;font-weight:900}.exit-answer.show{display:block}
-    .recap-chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:1rem 0}.recap-step{border-radius:20px;padding:1rem;background:#fff;border:1px solid rgba(18,36,61,.1);text-align:center}.recap-step .num{width:34px;height:34px;margin:0 auto .55rem;border-radius:50%;display:grid;place-items:center;background:#0077e8;color:#fff;font-weight:900}.recap-step b{display:block}.recap-step span{display:block;margin-top:.25rem;color:#6d7989;font-size:.85rem}
-    .teacher-tip{margin-top:1rem;padding:1rem 1.1rem;border-left:4px solid #ff9e1b;background:#fff8eb;border-radius:0 16px 16px 0;line-height:1.55}.teacher-tip strong{color:#9b5900}
-    .compat-hidden{display:none!important}
-    @media (max-width:900px){.phone-grid{grid-template-columns:1fr}.data-chip-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.compare-two,.info-transform{grid-template-columns:1fr}.vs,.transform-arrow{min-height:34px}.process-flow{grid-template-columns:1fr 1fr}.process-actions,.recap-chain{grid-template-columns:1fr 1fr}.chart-options{grid-template-columns:1fr}.exit-grid{grid-template-columns:1fr}}
-    @media (max-width:560px){.data-chip-grid,.classify-board,.process-flow,.process-actions,.recap-chain{grid-template-columns:1fr}.phone-card{min-height:auto}}
-  </style>
 </head>
 <body>
-  <div aria-hidden="true" class="noise"></div>
   <main class="app">
     <header class="topbar">
-      <button aria-label="เปิดสารบัญ" class="icon-btn" id="tocOpen" title="สารบัญ">
-        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
-      </button>
+      <button class="icon-btn" id="tocOpen" aria-label="เปิดสารบัญ" title="สารบัญ">☰</button>
       <div class="brand">
         <div class="brand-mark">D</div>
-        <div class="brand-copy"><strong>Data and Processing</strong><span>Demo Teaching Flow · วิทยาการคำนวณ ม.1</span></div>
+        <div class="brand-copy"><strong>Data and Processing</strong><span>วิทยาการคำนวณ ม.1 · หน่วยที่ 5</span></div>
       </div>
-      <div aria-label="ความคืบหน้า" class="progress-wrap">
+      <div class="progress-wrap" aria-label="ความคืบหน้า">
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
         <span class="counter" id="counter">01 / 14</span>
       </div>
-      <button aria-label="เปิดคำอธิบายสำหรับผู้สอน" class="icon-btn" id="noteToggle" title="คำอธิบายแต่ละสไลด์ (N)">
-        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v13H8l-4 4V4Z"></path><path d="M8 8h8M8 12h5"></path></svg>
-      </button>
-      <button aria-label="เปิดเต็มจอ" class="icon-btn" id="fullscreen" title="เต็มจอ (F)">
-        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"></path></svg>
-      </button>
+      <button class="icon-btn" id="fullscreen" aria-label="เต็มจอ" title="เต็มจอ">⛶</button>
     </header>
 
-    <section aria-live="polite" class="stage">
+    <section class="stage" aria-live="polite">
       <div class="slides" id="slides">
 
-        <!-- 01: Hook -->
-        <article class="slide active" data-title="เปิดบทเรียน: เลือกมือถือ" data-note="ยังไม่บอกชื่อเรื่องก่อน เริ่มด้วยคำถาม: ใครใช้โทรศัพท์มือถือบ้าง? รุ่นอะไร? ทำไมถึงเลือกรุ่นนั้น? จากนั้นตั้งสถานการณ์ว่ามีเงิน 10,000 บาท ให้เลือกมือถือ 1 รุ่นจากหน้าจอ ทั้งสามรุ่นยังไม่แสดงสเปก จุดสำคัญคือให้ผู้เรียนพูดเหตุผลจากประสบการณ์เดิม เช่น ราคา กล้อง แบต ความจุ หรือยี่ห้อ แล้วถามต่อว่า ตอนนี้ข้อมูลยังไม่พอ เราตัดสินใจได้ดีแล้วหรือยัง?">
-          <div class="slide-inner">
-            <div class="demo-kicker">CHALLENGE 01 · ยังไม่บอกชื่อบทเรียน</div>
-            <h1>มีเงิน <span class="accent">10,000 บาท</span><br/>คุณจะเลือกมือถือเครื่องไหน?</h1>
-            <p class="lead">ลองเลือกจากสิ่งที่เห็นก่อน — ยังไม่มีข้อมูลสเปกให้ดู</p>
+        <article class="slide active" data-title="เลือกมือถือ">
+          <div class="slide-inner compact-center">
+            <div class="eyebrow">CHALLENGE 01</div>
+            <h1>มีเงิน <span class="accent">10,000 บาท</span><br>จะเลือกมือถือเครื่องไหน?</h1>
+            <p class="lead">ลองเลือกจากสิ่งที่เห็นก่อน — ตอนนี้ยังไม่มีข้อมูลสเปก</p>
             <div class="phone-grid" id="firstChoiceGrid">
-              <button class="phone-card" data-phone="A"><div class="phone-art"></div><strong>รุ่น A</strong><small>ยังไม่เปิดเผยข้อมูล</small><div class="pick">เลือก A →</div></button>
-              <button class="phone-card" data-phone="B"><div class="phone-art"></div><strong>รุ่น B</strong><small>ยังไม่เปิดเผยข้อมูล</small><div class="pick">เลือก B →</div></button>
-              <button class="phone-card" data-phone="C"><div class="phone-art"></div><strong>รุ่น C</strong><small>ยังไม่เปิดเผยข้อมูล</small><div class="pick">เลือก C →</div></button>
+              <button class="phone-card" data-phone="A"><div class="phone-art"></div><strong>รุ่น A</strong><span>ยังไม่เปิดข้อมูล</span></button>
+              <button class="phone-card" data-phone="B"><div class="phone-art"></div><strong>รุ่น B</strong><span>ยังไม่เปิดข้อมูล</span></button>
+              <button class="phone-card" data-phone="C"><div class="phone-art"></div><strong>รุ่น C</strong><span>ยังไม่เปิดข้อมูล</span></button>
             </div>
-            <div class="feedback-box" id="firstChoiceFeedback">คำถามของครู: <strong>“ทำไมถึงเลือกรุ่นนั้น?”</strong></div>
+            <div class="inline-feedback" id="firstChoiceFeedback">เลือกได้เลย แล้วลองคิดว่า “เราใช้เหตุผลอะไรในการเลือก?”</div>
           </div>
         </article>
 
-        <!-- 02: What do we need to know? -->
-        <article class="slide" data-title="ก่อนเลือก ต้องรู้อะไร?" data-note="ถามว่า ก่อนซื้อโทรศัพท์หนึ่งเครื่อง เราควรรู้อะไรบ้าง? รับคำตอบจากนักเรียนก่อน แล้วค่อยชี้ให้ดูตัวอย่าง ราคา แบตเตอรี่ ความจุ รีวิว และความคิดเห็น ย้ำว่าเราไม่ได้เลือกแบบไม่มีเหตุผล สิ่งเหล่านี้เป็นสิ่งที่ใช้ประกอบการตัดสินใจ แล้วถามว่า สิ่งเหล่านี้เรียกรวม ๆ ว่าอะไร?">
-          <div class="slide-inner">
+        <article class="slide" data-title="ก่อนเลือกต้องรู้อะไร">
+          <div class="slide-inner compact-center">
             <div class="eyebrow">DISCOVER</div>
-            <h2>ก่อนเลือกมือถือ<br/><span class="accent">เราต้องรู้อะไรบ้าง?</span></h2>
-            <p class="demo-question">ลองบอกสิ่งที่นักเรียนอยากรู้ก่อนซื้อ 1 เครื่อง</p>
+            <h2>ก่อนซื้อ เราต้องรู้ <span class="accent">อะไรบ้าง?</span></h2>
             <div class="data-chip-grid">
               <div class="data-chip"><span>ราคา</span><strong>8,990 บาท</strong></div>
               <div class="data-chip"><span>แบตเตอรี่</span><strong>5,000 mAh</strong></div>
@@ -105,214 +51,201 @@
               <div class="data-chip"><span>คะแนนรีวิว</span><strong>4.6 / 5</strong></div>
               <div class="data-chip"><span>ความคิดเห็น</span><strong>“กล้องสวย”</strong></div>
             </div>
-            <div class="teacher-tip"><strong>ถามก่อนเฉลย:</strong> “ราคา 8,990 บาท เป็นอะไร? แบต 5,000 mAh เป็นอะไร? คะแนน 4.6 เป็นอะไร?”</div>
+            <div class="question-strip">สิ่งเหล่านี้เรียกรวม ๆ ว่าอะไร?</div>
           </div>
         </article>
 
-        <!-- 03: Data -->
-        <article class="slide" data-title="ข้อมูลคืออะไร" data-note="หลังนักเรียนเสนอคำตอบ ให้สรุปว่าราคา แบต ความจุ คะแนนรีวิว และความคิดเห็น ล้วนเป็นข้อมูล ข้อมูลอาจเป็นตัวเลข ข้อความ หรือข้อเท็จจริงที่เรารวบรวมไว้เพื่อใช้ตอบคำถามหรือประกอบการตัดสินใจ ไม่ต้องรีบนิยามยาว ให้ผูกกับสิ่งที่เด็กเพิ่งพูดออกมา">
-          <div class="slide-inner grid-2">
+        <article class="slide" data-title="ข้อมูลคืออะไร">
+          <div class="slide-inner two-col">
             <div>
               <div class="eyebrow">DATA</div>
-              <h2>สิ่งที่เราใช้ประกอบ<br/><span class="accent">การตัดสินใจ</span></h2>
-              <p class="lead">ราคา แบตเตอรี่ ความจุ รีวิว และความคิดเห็น คือข้อเท็จจริงที่เรานำมาใช้ตอบคำถาม</p>
-              <div class="big-reveal"><strong>ข้อมูล (Data)</strong><span>ตัวเลข · ข้อความ · ข้อเท็จจริง ที่รวบรวมไว้เพื่อใช้ตอบคำถาม</span></div>
+              <h2><span class="accent">ข้อมูล</span> คืออะไร?</h2>
+              <p class="lead">ตัวเลข ข้อความ หรือข้อเท็จจริงที่เรารวบรวมไว้ เพื่อใช้ตอบคำถาม วางแผน หรือตัดสินใจ</p>
+              <div class="definition-card"><strong>DATA</strong><span>ยังไม่ใช่คำตอบสุดท้าย จนกว่าเราจะนำไปจัดการและตีความ</span></div>
             </div>
-            <div class="card">
-              <h3>ลองคิดต่อ</h3>
-              <p class="demo-question">“ข้อมูลทั้งหมดเหมือนกันหรือไม่?”</p>
-              <p class="demo-sub">มองสองตัวอย่างนี้ให้ดี แล้วเตรียมตอบในสไลด์ถัดไป</p>
-              <div class="condition-row"><span class="condition">8,990 บาท</span><span class="condition orange">กล้องสวย</span></div>
-            </div>
-          </div>
-        </article>
-
-        <!-- 04: Quant vs Qual -->
-        <article class="slide" data-title="ปริมาณ vs คุณภาพ" data-note="เขียนหรือชี้ 8,990 บาท กับคำว่า กล้องสวย แล้วถามว่าสองอย่างนี้ต่างกันอย่างไร ให้ผู้เรียนพูดก่อน จากนั้นสรุปว่า ข้อมูลเชิงปริมาณเป็นค่าที่วัด นับ เปรียบเทียบ หรือคำนวณได้ ส่วนข้อมูลเชิงคุณภาพเป็นลักษณะ ประเภท ความคิดเห็น หรือความรู้สึก">
-          <div class="slide-inner">
-            <div class="eyebrow">COMPARE</div>
-            <h2>สองข้อมูลนี้ <span class="accent">ต่างกันอย่างไร?</span></h2>
-            <div class="compare-two">
-              <div class="compare-card"><div class="example">8,990 บาท</div><div class="type">ข้อมูลเชิงปริมาณ</div><p>เป็นตัวเลข วัด นับ เปรียบเทียบ และคำนวณได้</p></div>
-              <div class="vs">VS</div>
-              <div class="compare-card"><div class="example">“กล้องสวย”</div><div class="type">ข้อมูลเชิงคุณภาพ</div><p>เป็นลักษณะ ประเภท ความคิดเห็น หรือความรู้สึก</p></div>
+            <div class="example-stack">
+              <div class="example-pill"><b>8,990 บาท</b><span>ตัวเลข</span></div>
+              <div class="example-pill"><b>5,000 mAh</b><span>ค่าที่วัดได้</span></div>
+              <div class="example-pill"><b>“กล้องสวย”</b><span>ความคิดเห็น</span></div>
             </div>
           </div>
         </article>
 
-        <!-- 05: Interactive classify -->
-        <article class="slide" data-title="เกมจำแนกข้อมูล" data-note="ใช้เป็นการตรวจความเข้าใจระหว่างเรียน อ่านโจทย์ทีละข้อแล้วให้ห้องตอบก่อนจึงกดเฉลย ตัวอย่างสำคัญคือเวลาเดินทางมาโรงเรียน 25 นาที ซึ่งเป็นข้อมูลเชิงปริมาณเพราะวัดออกมาเป็นตัวเลขได้ ถ้าผู้เรียนตอบผิด ให้ถามเหตุผลก่อนเฉลย ไม่ต้องรีบบอกว่าไม่ถูก">
-          <div class="slide-inner">
+        <article class="slide" data-title="ชนิดของข้อมูล">
+          <div class="slide-inner media-layout">
+            <div class="media-copy">
+              <div class="eyebrow">TWO TYPES</div>
+              <h2>ข้อมูลมี <span class="accent">2 แบบหลัก</span></h2>
+              <div class="type-mini-grid">
+                <div class="type-mini quant"><b>เชิงปริมาณ</b><span>ตัวเลข · วัด · นับ · คำนวณ</span><em>8,990 บาท</em></div>
+                <div class="type-mini qual"><b>เชิงคุณภาพ</b><span>ลักษณะ · ประเภท · ความคิดเห็น</span><em>“กล้องสวย”</em></div>
+              </div>
+            </div>
+            <figure class="media-visual"><img src="assets/images/01-data-types-thinking.png" alt="ตัวอย่างการคิดจำแนกข้อมูลเชิงปริมาณและเชิงคุณภาพ"></figure>
+          </div>
+        </article>
+
+        <article class="slide" data-title="ทายชนิดข้อมูล">
+          <div class="slide-inner quiz-slide">
             <div class="eyebrow">QUICK CHECK</div>
             <h2>ข้อมูลนี้เป็น <span class="accent">ชนิดใด?</span></h2>
-            <div class="classify-board">
-              <div class="classify-zone"><h3>ข้อมูลเชิงปริมาณ</h3><p>วัด · นับ · คำนวณ · เปรียบเทียบ</p></div>
-              <div class="classify-zone"><h3>ข้อมูลเชิงคุณภาพ</h3><p>ลักษณะ · ประเภท · ความคิดเห็น</p></div>
-            </div>
-            <div class="challenge-card">
-              <strong id="classifyPrompt">“เวลาเดินทางมาโรงเรียน 25 นาที”</strong>
+            <div class="classify-card">
+              <div class="classify-progress" id="classifyProgress">ข้อ 1 / 5</div>
+              <div class="classify-example" id="classifyPrompt">เวลาเดินทางมาโรงเรียน 25 นาที</div>
               <div class="choice-row">
-                <button class="demo-btn primary classify-choice" data-answer="quant">เชิงปริมาณ</button>
-                <button class="demo-btn alt classify-choice" data-answer="qual">เชิงคุณภาพ</button>
-                <button class="demo-btn" id="nextClassify">ข้อต่อไป</button>
+                <button class="answer-btn quant classify-choice" data-answer="quant">เชิงปริมาณ</button>
+                <button class="answer-btn qual classify-choice" data-answer="qual">เชิงคุณภาพ</button>
               </div>
-              <div class="feedback-box" id="classifyFeedback">เลือกคำตอบ แล้วอธิบายเหตุผลก่อนดูเฉลย</div>
+              <div class="classify-feedback" id="classifyFeedback">เลือกคำตอบ 1 ข้อ</div>
+              <button class="next-mini" id="nextClassify" disabled>ข้อต่อไป →</button>
             </div>
           </div>
         </article>
 
-        <!-- 06: From question to decision -->
-        <article class="slide" data-title="วงจรข้อมูล" data-note="ย้อนกลับโจทย์โทรศัพท์: ถ้ามีเงิน 10,000 บาท เราจะซื้อเครื่องแรกทันทีหรือไม่? เมื่อเด็กตอบว่าต้องเปรียบเทียบ ให้ชี้ว่าการจัดเรียง เปรียบเทียบ คำนวณ หรือกรอง คือการประมวลผลข้อมูล เน้นวงจรที่เริ่มจากคำถาม ไม่ใช่เริ่มจากเครื่องมือ: คำถาม → ข้อมูล → ประมวลผล → สารสนเทศ → ตัดสินใจ">
-          <div class="slide-inner">
-            <div class="eyebrow">FROM QUESTION TO DECISION</div>
-            <h2>ข้อมูลไม่ได้จบที่การ “มีข้อมูล”</h2>
-            <p class="lead">เราต้องทำบางอย่างกับข้อมูล เพื่อให้ตอบคำถามและใช้ตัดสินใจได้</p>
+        <article class="slide" data-title="จากคำถามสู่การตัดสินใจ">
+          <div class="slide-inner compact-center">
+            <div class="eyebrow">DATA JOURNEY</div>
+            <h2>จากคำถาม → <span class="accent">การตัดสินใจ</span></h2>
             <div class="process-flow">
-              <div class="process-node"><b>1 · คำถาม</b><span>มือถือรุ่นไหนเหมาะ?</span></div>
-              <div class="process-node"><b>2 · ข้อมูล</b><span>ราคา · แบต · รีวิว</span></div>
-              <div class="process-node"><b>3 · ประมวลผล</b><span>กรอง · เปรียบเทียบ</span></div>
-              <div class="process-node"><b>4 · สารสนเทศ</b><span>เหลือรุ่นที่ตรงเงื่อนไข</span></div>
-              <div class="process-node"><b>5 · ตัดสินใจ</b><span>เลือกพร้อมเหตุผล</span></div>
+              <div class="process-node"><span>1</span><b>คำถาม</b><small>จะเลือกมือถือรุ่นไหน?</small></div>
+              <div class="process-arrow">→</div>
+              <div class="process-node"><span>2</span><b>ข้อมูล</b><small>ราคา · แบต · รีวิว</small></div>
+              <div class="process-arrow">→</div>
+              <div class="process-node"><span>3</span><b>ประมวลผล</b><small>กรอง · เปรียบเทียบ</small></div>
+              <div class="process-arrow">→</div>
+              <div class="process-node"><span>4</span><b>สารสนเทศ</b><small>ข้อสรุปที่มีความหมาย</small></div>
+              <div class="process-arrow">→</div>
+              <div class="process-node"><span>5</span><b>ตัดสินใจ</b><small>เลือกพร้อมเหตุผล</small></div>
             </div>
-            <div class="teacher-tip"><strong>คำถามชี้นำ:</strong> “ถ้าเรามีข้อมูลครบแล้ว แต่ไม่เปรียบเทียบอะไรเลย ข้อมูลนั้นช่วยเราเลือกได้ดีที่สุดหรือยัง?”</div>
           </div>
         </article>
 
-        <!-- 07: Phone table -->
-        <article class="slide" data-title="ตารางข้อมูลมือถือ 5 รุ่น" data-note="ให้ผู้เรียนอ่านตารางก่อน อย่าเพิ่งบอกว่ารุ่นไหนดีที่สุด ถามว่า ถ้ามีงบ 10,000 บาทอย่างเดียว รุ่นไหนบ้างที่ยังมีโอกาส? จากนั้นบอกว่าจะมีเงื่อนไขเพิ่มในหน้าถัดไป จุดประสงค์คือให้เด็กเห็นข้อมูลดิบหลายแถวก่อนการกรอง">
-          <div class="slide-inner">
-            <div class="eyebrow">RAW DATA</div>
-            <h2>ข้อมูลมือถือ <span class="accent">5 รุ่น</span></h2>
-            <p class="demo-sub">ยังไม่ต้องเลือกทันที — อ่านข้อมูลก่อน</p>
+        <article class="slide" data-title="ตารางข้อมูลมือถือ">
+          <div class="slide-inner table-slide">
+            <div class="slide-heading-row"><div><div class="eyebrow">RAW DATA</div><h2>มือถือ <span class="accent">5 รุ่น</span></h2></div><div class="small-hint">อ่านข้อมูลก่อน ยังไม่ต้องรีบเลือก</div></div>
             <div class="phone-table-wrap">
-              <table class="phone-table" id="phoneTable">
-                <thead><tr><th>รุ่น</th><th>ราคา (บาท)</th><th>แบตเตอรี่</th><th>ความจุ</th><th>รีวิว</th></tr></thead>
+              <table class="phone-table">
+                <thead><tr><th>รุ่น</th><th>ราคา</th><th>แบตเตอรี่</th><th>ความจุ</th><th>รีวิว</th></tr></thead>
                 <tbody>
-                  <tr data-model="A" data-price="8990" data-battery="5000"><td><strong>A</strong></td><td>8,990</td><td>5,000 mAh</td><td>128 GB</td><td>4.3</td></tr>
-                  <tr data-model="B" data-price="9990" data-battery="6000"><td><strong>B</strong></td><td>9,990</td><td>6,000 mAh</td><td>256 GB</td><td>4.7</td></tr>
-                  <tr data-model="C" data-price="12900" data-battery="5000"><td><strong>C</strong></td><td>12,900</td><td>5,000 mAh</td><td>256 GB</td><td>4.8</td></tr>
-                  <tr data-model="D" data-price="7490" data-battery="4000"><td><strong>D</strong></td><td>7,490</td><td>4,000 mAh</td><td>128 GB</td><td>4.1</td></tr>
-                  <tr data-model="E" data-price="10500" data-battery="5500"><td><strong>E</strong></td><td>10,500</td><td>5,500 mAh</td><td>256 GB</td><td>4.5</td></tr>
+                  <tr><td><b>A</b></td><td>8,990</td><td>5,000 mAh</td><td>128 GB</td><td>4.3</td></tr>
+                  <tr><td><b>B</b></td><td>9,990</td><td>6,000 mAh</td><td>256 GB</td><td>4.7</td></tr>
+                  <tr><td><b>C</b></td><td>12,900</td><td>5,000 mAh</td><td>256 GB</td><td>4.8</td></tr>
+                  <tr><td><b>D</b></td><td>7,490</td><td>4,000 mAh</td><td>128 GB</td><td>4.1</td></tr>
+                  <tr><td><b>E</b></td><td>10,500</td><td>5,500 mAh</td><td>256 GB</td><td>4.5</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
         </article>
 
-        <!-- 08: Filter mission -->
-        <article class="slide" data-title="ภารกิจ Filter" data-note="ตั้งบทบาทว่า ตอนนี้ทุกคนเป็นนักสืบข้อมูล เงื่อนไขคือ งบไม่เกิน 10,000 บาท และแบตไม่น้อยกว่า 5,000 mAh ถามทีละแถวว่ารุ่นใดไม่ตรงเงื่อนไข จากนั้นกดกรองข้อมูล อธิบายว่า Filter ไม่ได้ลบข้อมูลต้นฉบับ แต่แสดงเฉพาะรายการที่ตรงเงื่อนไข">
-          <div class="slide-inner">
-            <div class="eyebrow">DATA DETECTIVE</div>
-            <h2>ภารกิจ: <span class="accent">กรองให้เหลือรุ่นที่ใช่</span></h2>
-            <div class="condition-row"><span class="condition">งบ ≤ 10,000 บาท</span><span class="condition orange">แบตเตอรี่ ≥ 5,000 mAh</span></div>
+        <article class="slide" data-title="ภารกิจ Filter">
+          <div class="slide-inner table-slide">
+            <div class="slide-heading-row"><div><div class="eyebrow">DATA DETECTIVE</div><h2>กรองให้เหลือ <span class="accent">รุ่นที่ใช่</span></h2></div><div class="conditions"><span>ราคา ≤ 10,000</span><span>แบต ≥ 5,000</span></div></div>
             <div class="phone-table-wrap">
               <table class="phone-table" id="filterTable">
-                <thead><tr><th>รุ่น</th><th>ราคา</th><th>แบตเตอรี่</th><th>สถานะ</th></tr></thead>
+                <thead><tr><th>รุ่น</th><th>ราคา</th><th>แบตเตอรี่</th><th>ผล</th></tr></thead>
                 <tbody>
-                  <tr data-price="8990" data-battery="5000"><td><strong>A</strong></td><td>8,990</td><td>5,000 mAh</td><td class="status">รอตรวจ</td></tr>
-                  <tr data-price="9990" data-battery="6000"><td><strong>B</strong></td><td>9,990</td><td>6,000 mAh</td><td class="status">รอตรวจ</td></tr>
-                  <tr data-price="12900" data-battery="5000"><td><strong>C</strong></td><td>12,900</td><td>5,000 mAh</td><td class="status">รอตรวจ</td></tr>
-                  <tr data-price="7490" data-battery="4000"><td><strong>D</strong></td><td>7,490</td><td>4,000 mAh</td><td class="status">รอตรวจ</td></tr>
-                  <tr data-price="10500" data-battery="5500"><td><strong>E</strong></td><td>10,500</td><td>5,500 mAh</td><td class="status">รอตรวจ</td></tr>
+                  <tr data-price="8990" data-battery="5000"><td><b>A</b></td><td>8,990</td><td>5,000 mAh</td><td class="status">รอตรวจ</td></tr>
+                  <tr data-price="9990" data-battery="6000"><td><b>B</b></td><td>9,990</td><td>6,000 mAh</td><td class="status">รอตรวจ</td></tr>
+                  <tr data-price="12900" data-battery="5000"><td><b>C</b></td><td>12,900</td><td>5,000 mAh</td><td class="status">รอตรวจ</td></tr>
+                  <tr data-price="7490" data-battery="4000"><td><b>D</b></td><td>7,490</td><td>4,000 mAh</td><td class="status">รอตรวจ</td></tr>
+                  <tr data-price="10500" data-battery="5500"><td><b>E</b></td><td>10,500</td><td>5,500 mAh</td><td class="status">รอตรวจ</td></tr>
                 </tbody>
               </table>
             </div>
-            <div class="choice-row"><button class="demo-btn primary" id="runFilter">กรองข้อมูล</button><button class="demo-btn" id="resetFilter">คืนข้อมูลทั้งหมด</button><span class="result-pill" id="filterResult" hidden>✓ เหลือ A และ B</span></div>
+            <div class="action-row"><button class="action-btn primary" id="runFilter">กรองข้อมูล</button><button class="action-btn" id="resetFilter">คืนข้อมูล</button><div class="result-badge" id="filterResult" hidden>เหลือ A และ B ✓</div></div>
           </div>
         </article>
 
-        <!-- 09: Processing meaning -->
-        <article class="slide" data-title="นี่คือการประมวลผล" data-note="ถามว่า เมื่อกี้เราเพิ่งทำอะไรกับข้อมูล? ให้เด็กตอบก่อน แล้วสรุปว่าเราใช้เงื่อนไขกับข้อมูล ทำให้จาก 5 รุ่นเหลือ 2 รุ่น นี่คือการประมวลผลข้อมูล ยกตัวอย่างว่าการประมวลผลไม่ได้มีแค่ Filter แต่รวมถึงจัดเรียง คำนวณ เปรียบเทียบ และกรอง">
-          <div class="slide-inner">
-            <div class="eyebrow">PROCESSING</div>
-            <h2>เมื่อกี้เราเพิ่งทำอะไร<br/><span class="accent">กับข้อมูล?</span></h2>
-            <div class="process-actions">
-              <div class="process-action"><b>จัดเรียง</b><span>Sort จากน้อยไปมาก</span></div>
-              <div class="process-action"><b>คำนวณ</b><span>ผลรวม ค่าเฉลี่ย ร้อยละ</span></div>
-              <div class="process-action"><b>เปรียบเทียบ</b><span>ดูความแตกต่างหลายด้าน</span></div>
-              <div class="process-action"><b>กรอง</b><span>เลือกเฉพาะที่ตรงเงื่อนไข</span></div>
-            </div>
-            <div class="big-reveal"><strong>การประมวลผลข้อมูล</strong><span>การนำข้อมูลมาจัดระเบียบ คำนวณ เปรียบเทียบ หรือกรอง เพื่อให้ตอบคำถามได้ง่ายขึ้น</span></div>
-          </div>
-        </article>
-
-        <!-- 10: Data -> Information -->
-        <article class="slide" data-title="ข้อมูลสู่สารสนเทศ" data-note="ตั้งคำถามว่า ถ้าครูมีคำตอบจากนักเรียน 30 คนว่าแต่ละคนชอบรุ่นอะไร ครูมีอะไร? คำตอบคือข้อมูล จากนั้นเมื่อเรานับได้ A 18 คน B 8 คน C 4 คน และคำนวณพบว่า 60% เลือก A เราได้สารสนเทศ เพราะเป็นผลที่ผ่านการประมวลผลและสื่อความหมายเพื่อใช้ตัดสินใจได้">
-          <div class="slide-inner">
-            <div class="eyebrow">DATA → INFORMATION</div>
-            <h2>ข้อมูล <span class="accent">ไม่ใช่สารสนเทศทันที</span></h2>
-            <div class="info-transform">
-              <div class="raw-box"><h3>ข้อมูลที่รวบรวมได้</h3><div class="raw-list"><div class="raw-item"><span>รุ่น A</span><b>18 คน</b></div><div class="raw-item"><span>รุ่น B</span><b>8 คน</b></div><div class="raw-item"><span>รุ่น C</span><b>4 คน</b></div></div><p class="demo-sub">นี่คือข้อมูลที่นำมานับและคำนวณต่อได้</p></div>
-              <div class="transform-arrow">นับ + คำนวณ →<span>18 ÷ 30 × 100</span></div>
-              <div class="info-box"><div class="info-number">60%</div><p>นักเรียนส่วนใหญ่เลือกรุ่น A</p><div class="result-pill">สารสนเทศที่ใช้สื่อสารและตัดสินใจได้</div></div>
-            </div>
-          </div>
-        </article>
-
-        <!-- 11: Chart -->
-        <article class="slide" data-title="เลือกกราฟให้เหมาะ" data-note="ถามว่า ถ้าต้องนำข้อมูล A 18, B 8, C 4 ไปให้ผู้อำนวยการดูภายในไม่กี่วินาที จะทำอย่างไรให้เข้าใจง่ายขึ้น? เมื่อนักเรียนตอบว่าทำกราฟ ให้เลือกชนิดกราฟจากหน้าจอ สรุปว่าแผนภูมิแท่งเหมาะกับการเปรียบเทียบหลายหมวดหมู่ ส่วนแผนภูมิวงกลมเหมาะกับการเน้นสัดส่วน และแผนภูมิเส้นเหมาะกับการเปลี่ยนแปลงตามเวลา">
-          <div class="slide-inner grid-2">
-            <div>
-              <div class="eyebrow">VISUALIZE</div>
-              <h2>ถ้ามีเวลาดูแค่ <span class="accent">5 วินาที</span><br/>จะสื่อสารอย่างไร?</h2>
-              <div class="mini-bars" aria-label="กราฟแท่งจำนวนผู้เลือกมือถือรุ่น A B C"><div class="mini-bar-wrap"><div class="mini-bar" style="height:90%"></div><b>A · 18</b></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:40%"></div><b>B · 8</b></div><div class="mini-bar-wrap"><div class="mini-bar" style="height:20%"></div><b>C · 4</b></div></div>
-            </div>
-            <div class="card">
-              <h3>เลือกกราฟที่เหมาะที่สุดสำหรับ “เปรียบเทียบ A / B / C”</h3>
-              <div class="chart-options">
-                <button class="chart-choice" data-chart="bar"><div class="icon">📊</div><b>แผนภูมิแท่ง</b><span>เปรียบเทียบหลายหมวดหมู่</span></button>
-                <button class="chart-choice" data-chart="pie"><div class="icon">🥧</div><b>แผนภูมิวงกลม</b><span>เน้นสัดส่วนของทั้งหมด</span></button>
-                <button class="chart-choice" data-chart="line"><div class="icon">📈</div><b>แผนภูมิเส้น</b><span>ดูการเปลี่ยนแปลงตามเวลา</span></button>
+        <article class="slide" data-title="การประมวลผลข้อมูล">
+          <div class="slide-inner media-layout">
+            <div class="media-copy">
+              <div class="eyebrow">PROCESSING</div>
+              <h2>เรา “ทำอะไร” <span class="accent">กับข้อมูล?</span></h2>
+              <div class="processing-grid">
+                <div><b>Sort</b><span>จัดเรียง</span></div>
+                <div><b>Filter</b><span>กรองตามเงื่อนไข</span></div>
+                <div><b>SUM / AVERAGE</b><span>คำนวณ</span></div>
+                <div><b>Compare</b><span>เปรียบเทียบ</span></div>
               </div>
-              <div class="feedback-box" id="chartFeedback">ให้เหตุผลก่อนกดคำตอบ</div>
+            </div>
+            <figure class="media-visual"><img src="assets/images/03-sum-formula.png" alt="ตัวอย่างการใช้สูตร SUM ในตารางคำนวณ"></figure>
+          </div>
+        </article>
+
+        <article class="slide" data-title="ข้อมูลสู่สารสนเทศ">
+          <div class="slide-inner info-layout">
+            <div class="raw-info-card">
+              <span class="card-label">DATA</span><h3>ผลสำรวจ 30 คน</h3>
+              <div class="raw-list"><div><span>รุ่น A</span><b>18</b></div><div><span>รุ่น B</span><b>8</b></div><div><span>รุ่น C</span><b>4</b></div></div>
+            </div>
+            <div class="big-arrow">→<small>นับ + คำนวณ</small></div>
+            <div class="raw-info-card information"><span class="card-label">INFORMATION</span><div class="big-number">60%</div><p>นักเรียนส่วนใหญ่เลือกรุ่น A</p></div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="เลือกกราฟให้เหมาะ">
+          <div class="slide-inner media-layout chart-layout">
+            <figure class="media-visual"><img src="assets/images/04-chart-comparison.png" alt="เปรียบเทียบแผนภูมิแท่ง วงกลม และเส้น"></figure>
+            <div class="media-copy">
+              <div class="eyebrow">VISUALIZE</div>
+              <h2>ถ้าต้องการ <span class="accent">เปรียบเทียบ A / B / C</span></h2>
+              <div class="chart-choices">
+                <button class="chart-choice" data-chart="bar">📊 <b>แท่ง</b></button>
+                <button class="chart-choice" data-chart="pie">🥧 <b>วงกลม</b></button>
+                <button class="chart-choice" data-chart="line">📈 <b>เส้น</b></button>
+              </div>
+              <div class="inline-feedback" id="chartFeedback">เลือกกราฟที่เหมาะที่สุด</div>
             </div>
           </div>
         </article>
 
-        <!-- 12: Return to first question -->
-        <article class="slide" data-title="กลับมาเลือกอีกครั้ง" data-note="กลับมาที่คำถามแรก แต่ครั้งนี้กำหนดว่าคำตอบต้องมีเหตุผลจากข้อมูลอย่างน้อย 2 ข้อ ถามว่า A กับ B ที่ผ่านเงื่อนไขแล้ว จะเลือกอะไรต่อ? ผู้เรียนอาจดูความจุ รีวิว กล้อง หรือบริการหลังการขาย ตัวอย่างเหตุผลที่ดี: เลือก B เพราะราคา 9,990 อยู่ในงบ แบต 6,000 mAh และความจุ 256 GB ขณะเดียวกันครูควรยอมรับคำตอบ A ได้ถ้ามีเหตุผลจากข้อมูลที่ชัดเจน เพราะจุดประสงค์คือการตัดสินใจอย่างมีหลักฐาน ไม่ใช่ให้ทุกคนเลือกเหมือนกัน">
-          <div class="slide-inner grid-2">
+        <article class="slide" data-title="ข้อมูลกับ AI">
+          <div class="slide-inner media-layout ai-layout">
+            <div class="media-copy">
+              <div class="eyebrow">DATA → AI</div>
+              <h2>ข้อมูลดี ทำให้ <span class="accent">AI เข้าใจงานได้ดีขึ้น</span></h2>
+              <div class="ai-points">
+                <div><span>✓</span><p><b>ข้อมูลถูกต้อง</b> → AI มีพื้นฐานที่น่าเชื่อถือกว่า</p></div>
+                <div><span>✓</span><p><b>ข้อมูลครบและตรงคำถาม</b> → AI สรุป/จัดหมวดหมู่ได้ชัดขึ้น</p></div>
+                <div><span>✓</span><p><b>ข้อมูลเป็นระเบียบ</b> → ตรวจคำตอบ AI กลับกับหลักฐานได้ง่าย</p></div>
+              </div>
+              <div class="gigo"><b>Garbage In → Garbage Out</b><span>ข้อมูลผิดหรือไม่ครบ อาจทำให้ AI สรุปผิดตามไปด้วย</span></div>
+            </div>
+            <figure class="media-visual"><img src="assets/images/06-ai-good-bad-data.png" alt="ข้อมูลดีและข้อมูลไม่ดีส่งผลต่อการทำงานของ AI"></figure>
+          </div>
+        </article>
+
+        <article class="slide" data-title="ตัดสินใจด้วยหลักฐาน">
+          <div class="slide-inner decision-layout">
             <div>
               <div class="eyebrow">DECIDE WITH EVIDENCE</div>
-              <h2>มีเงิน 10,000 บาท<br/><span class="accent">ตอนนี้จะเลือกรุ่นไหน?</span></h2>
-              <p class="lead">กติกาใหม่: ต้องให้เหตุผลจากข้อมูลอย่างน้อย 2 ข้อ</p>
-              <div class="choice-row"><button class="demo-btn primary final-choice" data-model="A">เลือก A</button><button class="demo-btn primary final-choice" data-model="B">เลือก B</button></div>
-              <div class="final-answer" id="finalAnswer">ยังไม่มีคำตอบเดียวที่ทุกคนต้องเลือกเหมือนกัน — สิ่งสำคัญคือ <strong>เหตุผลต้องอ้างอิงข้อมูล</strong></div>
+              <h2>กลับมาที่คำถามเดิม<br><span class="accent">ตอนนี้จะเลือกรุ่นไหน?</span></h2>
+              <p class="lead">กติกา: เหตุผลต้องอ้างอิงข้อมูลอย่างน้อย 2 ข้อ</p>
+              <div class="choice-row"><button class="answer-btn quant final-choice" data-model="A">เลือกรุ่น A</button><button class="answer-btn quant final-choice" data-model="B">เลือกรุ่น B</button></div>
+              <div class="inline-feedback" id="finalAnswer">A และ B ผ่านเงื่อนไขแล้ว — เลือกได้มากกว่า 1 คำตอบ ถ้ามีเหตุผลรองรับ</div>
             </div>
             <div class="evidence-card">
-              <h3>ข้อมูลของรุ่นที่ผ่านเงื่อนไข</h3>
-              <div class="evidence-line"><span>รุ่น A</span><b>8,990 · 5,000 mAh · 128 GB · รีวิว 4.3</b></div>
-              <div class="evidence-line"><span>รุ่น B</span><b>9,990 · 6,000 mAh · 256 GB · รีวิว 4.7</b></div>
-              <div class="teacher-tip"><strong>ครูถามต่อ:</strong> “ถ้าเลือก A หรือ B เพราะอะไร? ข้อมูลข้อไหนสนับสนุนคำตอบของเรา?”</div>
+              <div><span>รุ่น A</span><b>8,990 · 5,000 mAh · 128 GB · 4.3</b></div>
+              <div><span>รุ่น B</span><b>9,990 · 6,000 mAh · 256 GB · 4.7</b></div>
             </div>
           </div>
         </article>
 
-        <!-- 13: Exit Ticket -->
-        <article class="slide" data-title="Exit Ticket" data-note="ใช้เป็นการประเมินท้ายช่วงแบบสั้น ให้ผู้เรียนตอบด้วยตนเองก่อนกดเฉลย ข้อ 1 คะแนนสอบนักเรียน 30 คนที่ยังไม่ได้คำนวณเป็นข้อมูล ข้อ 2 เมื่อคำนวณพบว่าค่าเฉลี่ยห้องคือ 72 คะแนน เป็นสารสนเทศ เพราะผ่านการประมวลผลและสื่อความหมายได้">
-          <div class="slide-inner">
-            <div class="eyebrow">EXIT TICKET · 1 นาที</div>
-            <h2>ข้อมูล หรือ <span class="accent">สารสนเทศ?</span></h2>
-            <div class="exit-grid">
-              <div class="exit-card"><div class="scenario">1) ครูมีคะแนนสอบนักเรียน 30 คน แต่ยังไม่ได้คำนวณหรือสรุปอะไรเลย สิ่งที่ครูมีคืออะไร?</div><div class="choice-row"><button class="demo-btn exit-reveal" data-target="exit1">ดูเฉลย</button></div><div class="exit-answer" id="exit1">ข้อมูล — เป็นค่าที่รวบรวมมาและยังไม่ได้ประมวลผลเป็นข้อสรุป</div></div>
-              <div class="exit-card"><div class="scenario">2) ครูคำนวณแล้วพบว่า “คะแนนเฉลี่ยของห้องคือ 72 คะแนน” สิ่งนี้คืออะไร?</div><div class="choice-row"><button class="demo-btn exit-reveal" data-target="exit2">ดูเฉลย</button></div><div class="exit-answer" id="exit2">สารสนเทศ — เป็นผลที่ผ่านการประมวลผลและนำไปตีความหรือใช้ตัดสินใจได้</div></div>
+        <article class="slide" data-title="สรุปและ Exit Ticket">
+          <div class="slide-inner recap-layout">
+            <div>
+              <div class="eyebrow">RECAP</div>
+              <h2>ข้อมูลมีคุณค่า เมื่อเรา <span class="accent">ใช้มันอย่างมีเหตุผล</span></h2>
+              <div class="recap-chain"><span>รวบรวม</span><b>→</b><span>ประมวลผล</span><b>→</b><span>สารสนเทศ</span><b>→</b><span>ตัดสินใจ</span></div>
+              <div class="ai-tail">และในยุค AI: <b>ข้อมูลที่ดี = จุดเริ่มของคำตอบที่ดีขึ้น</b></div>
             </div>
-          </div>
-        </article>
-
-        <!-- 14: Recap -->
-        <article class="slide" data-title="สรุปบทเรียน" data-note="กลับมาถามคำถามเดิมว่า ก่อนเรียนเราอาจเลือกโทรศัพท์จากความชอบ แต่หลังเรียนเราควรทำอย่างไร ให้ผู้เรียนช่วยกันพูดวงจร รวบรวมข้อมูล → ประมวลผล → สารสนเทศ → ตัดสินใจ ปิดด้วยประโยคว่า ข้อมูลจำนวนมากไม่ได้มีคุณค่าเพียงเพราะเรามีเยอะ แต่มีคุณค่าเมื่อเรารู้ว่าจะเลือก ประมวลผล และใช้ข้อมูลอย่างมีเหตุผล สำหรับบทต่อไปจึงค่อยขยายไปสู่แหล่งข้อมูล ตารางคำนวณ สูตร Sort/Filter เชิงลึก กราฟ และ AI/GIGO">
-          <div class="slide-inner">
-            <div class="eyebrow">RECAP</div>
-            <h2>จากความชอบ → <span class="accent">การตัดสินใจด้วยข้อมูล</span></h2>
-            <div class="recap-chain">
-              <div class="recap-step"><div class="num">1</div><b>รวบรวมข้อมูล</b><span>หาเฉพาะข้อมูลที่เกี่ยวกับคำถาม</span></div>
-              <div class="recap-step"><div class="num">2</div><b>ประมวลผล</b><span>กรอง จัดเรียง คำนวณ เปรียบเทียบ</span></div>
-              <div class="recap-step"><div class="num">3</div><b>สารสนเทศ</b><span>ข้อสรุปที่มีความหมายมากขึ้น</span></div>
-              <div class="recap-step"><div class="num">4</div><b>ตัดสินใจ</b><span>เลือกโดยมีหลักฐานรองรับ</span></div>
+            <div class="exit-card">
+              <span class="card-label">EXIT TICKET</span>
+              <h3>“คะแนนเฉลี่ยของห้องคือ 72 คะแนน” เป็นอะไร?</h3>
+              <div class="choice-row"><button class="exit-choice" data-answer="data">ข้อมูล</button><button class="exit-choice" data-answer="info">สารสนเทศ</button></div>
+              <div class="inline-feedback" id="exitFeedback">เลือกคำตอบก่อนจบคาบ</div>
             </div>
-            <div class="big-reveal"><strong>ข้อมูลมีคุณค่า เมื่อเราใช้มันอย่างมีเหตุผล</strong><span>ไม่ใช่เพียงมีข้อมูลจำนวนมาก แต่ต้องรู้ว่าจะรวบรวม ประมวลผล และนำไปใช้อย่างไร</span></div>
-            <div class="teacher-tip"><strong>ต่อยอดบทเรียนถัดไป:</strong> แหล่งข้อมูลปฐมภูมิ/ทุติยภูมิ · Spreadsheet · SUM/AVERAGE · Sort/Filter · การเลือกกราฟ · AI และ Garbage In, Garbage Out</div>
           </div>
         </article>
 
@@ -320,104 +253,15 @@
     </section>
 
     <footer class="bottom-bar">
-      <div class="hint"><kbd>←</kbd><kbd>→</kbd> เปลี่ยนสไลด์ &nbsp; <kbd>N</kbd> บันทึกผู้สอน &nbsp; <kbd>F</kbd> เต็มจอ</div>
+      <div class="hint"><kbd>←</kbd><kbd>→</kbd> เปลี่ยนสไลด์ &nbsp; <kbd>F</kbd> เต็มจอ</div>
       <div class="nav-actions"><button class="nav-btn" id="prevBtn">ก่อนหน้า</button><button class="nav-btn primary" id="nextBtn">ถัดไป</button></div>
     </footer>
   </main>
 
-  <div aria-label="สารบัญ" aria-modal="true" class="toc" id="toc" role="dialog">
-    <div class="toc-panel"><div class="toc-head"><h3>สารบัญบทเรียน</h3><button aria-label="ปิดสารบัญ" class="icon-btn" id="tocClose">×</button></div><div class="toc-grid" id="tocGrid"></div></div>
-  </div>
-  <aside aria-live="polite" class="presenter-note" id="presenterNote"><strong>คำอธิบายการสอนสไลด์นี้</strong><p id="noteText"></p></aside>
-
-  <!-- Compatibility DOM: keeps the existing app.js quiz bindings from failing even though the demo flow no longer shows pre/post-test slides. -->
-  <div class="compat-hidden" aria-hidden="true">
-    <div id="preQuizNav"></div>
-    <div id="preQuizCard">
-      <div class="pre-question current" data-correct="2"><label><input name="pre1" type="radio" value="1"/>A</label><label><input name="pre1" type="radio" value="2"/>B</label></div>
-      <div class="pre-question" data-correct="1"><label><input name="pre2" type="radio" value="1"/>A</label></div>
-      <div class="pre-question" data-correct="1"><label><input name="pre3" type="radio" value="1"/>A</label></div>
-      <div class="pre-question" data-correct="1"><label><input name="pre4" type="radio" value="1"/>A</label></div>
-      <div class="pre-question" data-correct="1"><label><input name="pre5" type="radio" value="1"/>A</label></div>
-    </div>
-    <button id="preQuizPrev"></button><button id="preQuizNext"></button><button id="preQuizCheck"></button><div id="preQuizResult"></div>
-    <div id="quizNav"></div>
-    <div id="quizCard">
-      <div class="question current" data-correct="1"><label><input name="q1" type="radio" value="1"/>A</label></div>
-      <div class="question" data-correct="1"><label><input name="q2" type="radio" value="1"/>A</label></div>
-      <div class="question" data-correct="1"><label><input name="q3" type="radio" value="1"/>A</label></div>
-      <div class="question" data-correct="1"><label><input name="q4" type="radio" value="1"/>A</label></div>
-      <div class="question" data-correct="1"><label><input name="q5" type="radio" value="1"/>A</label></div>
-    </div>
-    <button id="quizPrev"></button><button id="quizNext"></button><button id="quizCheck"></button><div id="quizResult"></div>
+  <div class="toc" id="toc" role="dialog" aria-modal="true" aria-label="สารบัญ">
+    <div class="toc-panel"><div class="toc-head"><h3>สารบัญบทเรียน</h3><button class="icon-btn" id="tocClose" aria-label="ปิด">×</button></div><div class="toc-grid" id="tocGrid"></div></div>
   </div>
 
-  <script defer src="assets/js/app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Slide 1: first choice without data
-      const firstCards = document.querySelectorAll('#firstChoiceGrid .phone-card');
-      const firstFeedback = document.getElementById('firstChoiceFeedback');
-      firstCards.forEach(card => card.addEventListener('click', () => {
-        firstCards.forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        const model = card.dataset.phone;
-        firstFeedback.innerHTML = `เลือกรุ่น <strong>${model}</strong> — แต่ตอนนี้เรายังไม่เห็นราคา แบตเตอรี่ ความจุ หรือรีวิวเลย<br><strong>เรามีข้อมูลพอสำหรับตัดสินใจหรือยัง?</strong>`;
-      }));
-
-      // Slide 5: classification mini-game
-      const classifyItems = [
-        { text: '“เวลาเดินทางมาโรงเรียน 25 นาที”', answer: 'quant', reason: 'เชิงปริมาณ เพราะวัดออกมาเป็นตัวเลขได้' },
-        { text: '“สีโทรศัพท์ที่ชอบคือสีฟ้า”', answer: 'qual', reason: 'เชิงคุณภาพ เพราะเป็นลักษณะ/ประเภท ไม่ใช่ค่าที่นำไปคำนวณโดยตรง' },
-        { text: '“แบตเตอรี่ 6,000 mAh”', answer: 'quant', reason: 'เชิงปริมาณ เพราะเป็นค่าตัวเลขที่วัดและเปรียบเทียบได้' },
-        { text: '“ใช้งานง่าย”', answer: 'qual', reason: 'เชิงคุณภาพ เพราะเป็นความคิดเห็นหรือลักษณะการใช้งาน' }
-      ];
-      let classifyIndex = 0;
-      const prompt = document.getElementById('classifyPrompt');
-      const feedback = document.getElementById('classifyFeedback');
-      const renderClassify = () => { prompt.textContent = classifyItems[classifyIndex].text; feedback.textContent = 'เลือกคำตอบ แล้วอธิบายเหตุผลก่อนดูเฉลย'; };
-      document.querySelectorAll('.classify-choice').forEach(btn => btn.addEventListener('click', () => {
-        const item = classifyItems[classifyIndex];
-        feedback.innerHTML = btn.dataset.answer === item.answer ? `✓ <strong>ถูกต้อง</strong> — ${item.reason}` : `ลองคิดอีกครั้ง — ${item.reason}`;
-      }));
-      document.getElementById('nextClassify')?.addEventListener('click', () => { classifyIndex = (classifyIndex + 1) % classifyItems.length; renderClassify(); });
-
-      // Slide 8: filter table
-      const filterRows = document.querySelectorAll('#filterTable tbody tr');
-      document.getElementById('runFilter')?.addEventListener('click', () => {
-        filterRows.forEach(row => {
-          const ok = Number(row.dataset.price) <= 10000 && Number(row.dataset.battery) >= 5000;
-          row.classList.toggle('filtered-out', !ok);
-          row.classList.toggle('winner', ok);
-          const status = row.querySelector('.status');
-          if (status) status.textContent = ok ? '✓ ผ่านเงื่อนไข' : 'กรองออก';
-        });
-        const pill = document.getElementById('filterResult'); if (pill) pill.hidden = false;
-      });
-      document.getElementById('resetFilter')?.addEventListener('click', () => {
-        filterRows.forEach(row => { row.classList.remove('filtered-out','winner'); const status = row.querySelector('.status'); if (status) status.textContent = 'รอตรวจ'; });
-        const pill = document.getElementById('filterResult'); if (pill) pill.hidden = true;
-      });
-
-      // Slide 11: chart choice
-      const chartFeedback = document.getElementById('chartFeedback');
-      document.querySelectorAll('.chart-choice').forEach(btn => btn.addEventListener('click', () => {
-        const type = btn.dataset.chart;
-        if (type === 'bar') chartFeedback.innerHTML = '✓ <strong>เหมาะที่สุด:</strong> แผนภูมิแท่งช่วยเปรียบเทียบ A, B และ C ได้ชัดเจน';
-        if (type === 'pie') chartFeedback.innerHTML = 'ใช้ได้ถ้าต้องการเน้น <strong>สัดส่วน</strong> เช่น A คิดเป็น 60% แต่ถ้าโจทย์คือเปรียบเทียบ A/B/C แผนภูมิแท่งอ่านง่ายกว่า';
-        if (type === 'line') chartFeedback.innerHTML = 'แผนภูมิเส้นเหมาะกับ <strong>การเปลี่ยนแปลงตามเวลา</strong> จึงไม่ใช่ตัวเลือกหลักของโจทย์นี้';
-      }));
-
-      // Slide 12: final evidence-based choice
-      const finalAnswer = document.getElementById('finalAnswer');
-      document.querySelectorAll('.final-choice').forEach(btn => btn.addEventListener('click', () => {
-        if (btn.dataset.model === 'A') finalAnswer.innerHTML = '<strong>ตัวอย่างเหตุผล:</strong> เลือก A เพราะราคา 8,990 บาท อยู่ในงบ และแบตเตอรี่ 5,000 mAh ผ่านเงื่อนไข โดยยังเหลืองบมากกว่า B';
-        else finalAnswer.innerHTML = '<strong>ตัวอย่างเหตุผล:</strong> เลือก B เพราะราคา 9,990 บาท อยู่ในงบ แบตเตอรี่ 6,000 mAh ความจุ 256 GB และรีวิว 4.7 สูงกว่า A';
-      }));
-
-      // Slide 13: exit ticket reveal
-      document.querySelectorAll('.exit-reveal').forEach(btn => btn.addEventListener('click', () => document.getElementById(btn.dataset.target)?.classList.toggle('show')));
-    });
-  </script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
